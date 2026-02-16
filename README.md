@@ -1,5 +1,5 @@
 # WEIRD
-Wiki Editing In Ruby Devkit. 
+Wiki EdIt Robot Daemon
 
 Automated scripting tools to auto-edit wikis without supervision. Requires Ruby and MediaWiki-Butt-Ruby. A combination of an MW linter, a grammar checker, a standards enforcer for Timberborn, and a syntactic report tool. 
 
