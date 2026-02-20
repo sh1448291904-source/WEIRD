@@ -1,0 +1,12 @@
+[
+  {
+    "find": "\\s{2,}(?!\\n)",
+    "replace": " ",
+    "summary": "Prose: Removed multiple spaces"
+  },
+  {
+    "find": "\\(\\s+",
+    "replace": "(",
+    "summary": "Prose: Removed space after opening paren"
+  }
+]

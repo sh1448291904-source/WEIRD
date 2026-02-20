@@ -1,0 +1,17 @@
+[
+  {
+    "find": "its a",
+    "replace": "it's a",
+    "summary": "Grammar: its -> it's (contraction)"
+  },
+  {
+    "find": "in order to",
+    "replace": "to",
+    "summary": "Verbosity."
+  },
+  {
+    "find": "their are",
+    "replace": "there are",
+    "summary": "Grammar: their -> there."
+  }
+]

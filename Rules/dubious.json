@@ -1,0 +1,52 @@
+[
+  {
+    "find": "will",
+    "replace": "",
+    "summary": "Kill 'will' to reduce future tense and make statements more direct"
+  },
+  {
+    "find": "argy-bargy",
+    "replace": "",
+    "summary": "Replace 'argy-bargy' to reduce informal expressions. Meaning: (UK) a noisy disagreement[16] ranging from a verbal dispute to pushing-and-shoving or outright fighting."
+  },
+  {
+    "find": "full stop",
+    "replace": "period",
+    "summary": "Ambiguous: if referring to the punctuation mark (UK), use period (USA). If referring to the phrase, consider rephrasing to avoid confusion. Example: complete stop."
+  },
+  {
+    "find": "scrappy",
+    "replace": "scrappy",
+    "summary": "Ambiguous: badly organised or untidy(UK) vs determined to succeed(USA)"
+  },
+  {
+    "find": "(<hr>|<hr />)",
+    "replace": "\\1",
+    "summary": "Consider using ---- or a div"
+  },
+  {
+    "find": "(weather|wether|whether)",
+    "replace": "\\1",
+    "summary": "Check the correct word is used."
+  },
+  {
+    "find": "the(y're|ir|re)",
+    "replace": "\\1",
+    "summary": "Check the correct word is used."
+  },
+  {
+    "find": "you('re|r|rs)",
+    "replace": "\\1",
+    "summary": "Check the correct word is used."
+  },
+  {
+    "find": "it('s|s)",
+    "replace": "\\1",
+    "summary": "Check the correct word is used."
+  },
+  {
+    "find": "(cock|prick|dick|pussy|bitch|bastard)",
+    "replace": "expletive",
+    "summary": "Potential expletive."
+  }
+]

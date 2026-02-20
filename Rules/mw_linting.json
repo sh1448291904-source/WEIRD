@@ -1,0 +1,202 @@
+[
+  {
+    "find": "(={2,6})([^\\s=])",
+    "replace": "\\1 \\2",
+    "summary": "sp"
+  },
+  {
+    "find": "([^\\s=])(={2,6})(?!=)",
+    "replace": "\\1 \\2",
+    "summary": "sp"
+  },
+  {
+    "find": "([^\\n])(\\n={2,6}[^=])",
+    "replace": "1\n\n\\2",
+    "summary": "sp"
+  },
+  {
+    "find": "\\n\\n\\n+(={2,6}[^=])",
+    "replace": "\n\n\\1",
+    "summary": "sp"
+  },
+  {
+    "find": "\\[\\[Category:([^\\]]+)\\]\\]",
+    "replace": "[[Category:\\1]]",
+    "summary": "sp"
+  },
+  {
+    "find": "\\[\\[File:([^\\|\\]]+)\\|([^\\]]+)\\]\\]",
+    "replace": "[[File:\\1|\\2]]",
+    "summary": "sp"
+  },
+  {
+    "find": "'''([^']+)'''",
+    "replace": "'''\\1'''",
+    "summary": "Normalized bold."
+  },
+  {
+    "find": "''([^']+)''",
+    "replace": "''\\1''",
+    "summary": "Normalized italic."
+  },
+  {
+    "find": "\\{\\{([a-zA-Z]+)\\s{2,}(\\|)",
+    "replace": "{{\\1\\2",
+    "summary": "sp"
+  },
+  {
+    "find": "<[bh]r\\s*\\\\?>",
+    "replace": "<br \\/>",
+    "summary": "Invalid backslash in break tag."
+  },
+  {
+    "find": "<([bh])r\\s*\\/?>",
+    "replace": "<br />",
+    "summary": "<\\1r> --> <\\1r />."
+  },
+  {
+    "find": "(?<![\\{\\[\\|])(?<=\\S)\\s*[\\|!]{1,2}\\s*(?=\\S)(?![\\}\\]])",
+    "replace": " \\1 ",
+    "summary": "sp"
+  },
+  {
+    "find": "([*#:;][^\\n]*)\\n\\s*\\n(?=[*#:;])",
+    "replace": "\\1\\n",
+    "summary": "sp"
+  },
+  {
+    "find": "[ \\t]+\\n",
+    "replace": "\\n",
+    "summary": "sp"
+  },
+  {
+    "find": "(?<=[^\\n])[ \\t]{2,}",
+    "replace": " ",
+    "summary": "sp"
+  },
+  {
+    "find": "(\\{\\|[^\\n]*mw-collapsible[^\\n]*\\n)\\|\\+\\s*(?!style=\"white-space:nowrap\")([^\\n]+)",
+    "replace": "\\1|+ style=\"white-space:nowrap\"|\\2",
+    "summary": "Added nowrap to collapsible table."
+  },
+  {
+    "find": "\\n{3,}",
+    "replace": "\\n\\n",
+    "summary": "sp"
+  },
+  {
+    "find": "<center>(.+?)<\\/center>",
+    "replace": "<div style=\"text-align: center;\">\\1</div>",
+    "summary": "<center> --> div."
+  },
+  {
+    "find": "<font color=\"?([^\">]+)\"?>(.+?)<\\/font>",
+    "replace": "<span style=\"color: \\1;\">\\2</span>",
+    "summary": "<font> --> span."
+  },
+  {
+    "find": "\\|thumbnail(?=[\\|\\]])",
+    "replace": "|thumb",
+    "summary": "'|thumbnail' --> '|thumb'."
+  },
+  {
+    "find": "\\[\\[((https?|udp|ftp|sftp|pop3|imap):\\/\\/[^\\]\\s]+)\\s+([^\\]]+)\\]\\]",
+    "replace": "[\\1 \\2]",
+    "summary": "[[external_link comment]] --> []."
+  },
+  {
+    "find": "\\[\\[((https?|udp|ftp|sftp|pop3|imap):\\/\\/[^\\]]+)\\]\\]",
+    "replace": "[\\1]",
+    "summary": "[[external_link]] --> []."
+  },
+  {
+    "find": "<\\/ref>\\s+<ref",
+    "replace": "</ref><ref",
+    "summary": "sp"
+  },
+  {
+    "find": "<big>(.+?)<\\/big>",
+    "replace": "<span style=\"font-size: 120%;\">\\1</span>",
+    "summary": "<big> --> span."
+  },
+  {
+    "find": "<small>(.+?)<\\/small>",
+    "replace": "<span style=\"font-size: 80%;\">\\1</span>",
+    "summary": "<small> --> span."
+  },
+  {
+    "find": "<tt>(.+?)<\\/tt>",
+    "replace": "<code>\\1</code>",
+    "summary": "<tt> --> <code>."
+  },
+  {
+    "find": "<u>(.+?)<\\/u>",
+    "replace": "<span style=\"text-decoration: underline;\">\\1</span>",
+    "summary": "<u> --> span."
+  },
+  {
+    "find": "<(\\/)?(dir|menu)>",
+    "replace": "<\\1ul>",
+    "summary": "<\\1\\2> --> <\\1ul>."
+  },
+  {
+    "find": "<br\\s+clear=\"?(all|both)\"?\\s*\\/?>",
+    "replace": "{{clear}}",
+    "summary": "<br clear> --> {{clear}}."
+  },
+  {
+    "find": "<div align=\"?(left|right|center)\"?>(.+?)<\\/div>",
+    "replace": "<div style=\"text-align: \\1;\">\\2</div>",
+    "summary": "div align --> CSS style."
+  },
+  {
+    "find": "<td align=\"?(left|right|center)\"?>",
+    "replace": "<td style=\"text-align: \\1;\">",
+    "summary": "table cell align --> CSS style."
+  },
+  {
+    "find": "<(?:s|strike|strikethrough)>(.*?)<\\/(?:s|strike|strikethrough)>",
+    "replace": "<span style=\"text-decoration: line-through;\">\\1</span>",
+    "summary": "strikethrough tags --> span"
+  },
+  {
+    "find": "<code>(Ctrl|Alt|Shift|Enter|Esc|Escape|Delete|Del|Backspace|Insert|Ins|Tab|Caps\\s?Lock|Num\\s?Lock|Scroll(?:\\s?Lock)?|Pause|Break|PrtSc|Print\\s?Screen|Home|End|Page\\s?Up|PgUp|Page\\s?Down|PgDn|Cmd|Command|Meta|Super|Win|Windows|Fn|AltGr|RtAlt|RtShift|RtCtrl|F[1-9]|F1[0-2]|Left-click|Right-click|Mousewheel|[↑↓←→])<\\/code>",
+    "replace": "<kbd>\\1</kbd>",
+    "summary": "<code>key press</code> --> <kbd>"
+  },
+  {
+    "find": "(?i)(?<!<kbd>)\\b(Ctrl|Alt|Shift|Enter|Esc|Escape|Delete|Del|Backspace|Insert|Ins|Tab|Caps\\s?Lock|Num\\s?Lock|Scroll(?:\\s?Lock)?|Pause|Break|PrtSc|Print\\s?Screen|Home|End|Page\\s?Up|PgUp|Page\\s?Down|PgDn|Cmd|Command|Meta|Super|Win|Windows|Fn|AltGr|RtAlt|RtShift|RtCtrl|F[1-9]|F1[0-2]|Left[- ]click|Right[- ]click|Mousewheel)\\b(?!<\\/kbd>)",
+    "replace": "<kbd>\\1</kbd>",
+    "summary": "Wrapped keyboard/mouse inputs in <kbd>"
+  },
+  {
+    "find": "(?i)(?<!<kbd>)\\b(Up|Down|Left|Right)(\\s+arrow\\b(?!<\\/kbd>)",
+    "replace": "<kbd>\\1 arrow</kbd>",
+    "summary": "Wrapped arrow key descriptions in <kbd> tags"
+  },
+  {
+    "find": "<kbd>(Up|Down|Left|Right)\\s+arrow<\\/kbd>",
+    "replace": "<kbd>\\1</kbd>",
+    "summary": "Simplified arrow key text"
+  },
+  {
+    "find": "<kbd>Up<\\/kbd>",
+    "replace": "<kbd>↑<\\/kbd>",
+    "summary": "Unicode arrow"
+  },
+  {
+    "find": "<kbd>Down<\\/kbd>",
+    "replace": "<kbd>↓<\\/kbd>",
+    "summary": "Unicode arrow"
+  },
+  {
+    "find": "<kbd>Left<\\/kbd>",
+    "replace": "<kbd>←<\\/kbd>",
+    "summary": "Unicode arrow"
+  },
+  {
+    "find": "<kbd>Right<\\/kbd>",
+    "replace": "<kbd>→<\\/kbd>",
+    "summary": "Unicode arrow"
+  }
+]

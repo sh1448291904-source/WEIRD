@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Timberborn Wiki",
+    "url": "https://timberborn.fandom.com/",
+    "api_path": "api.php",
+    "credentials": "timberborn_creds.json",
+    "namespaces": [0, 6, 14]
+  }
+]

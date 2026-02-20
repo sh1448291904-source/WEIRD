@@ -1,0 +1,7 @@
+[
+  {
+    "find": "([0-9]+) hph",
+    "replace": "\\1 HP",
+    "summary": "Standardized HP casing: '%1' -> '%2'"
+  }
+]

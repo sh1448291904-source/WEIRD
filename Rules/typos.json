@@ -1,0 +1,112 @@
+[
+  {
+    "find": "teh",
+    "replace": "the",
+    "summary": "sp"
+  },
+  {
+    "find": "distict(s)?",
+    "replace": "district//1",
+    "summary": "sp"
+  },
+  {
+    "find": "apparant",
+    "replace": "apparent",
+    "summary": "sp"
+  },
+  {
+    "find": "beleive",
+    "replace": "believe",
+    "summary": "sp"
+  },
+  {
+    "find": "sepe?rate",
+    "replace": "separate",
+    "summary": "sp"
+  },
+  {
+    "find": "tendancy",
+    "replace": "tendency",
+    "summary": "sp"
+  },
+  {
+    "find": "priv(iledge|elege)",
+    "replace": "privilege",
+    "summary": "sp"
+  },
+  {
+    "find": "pronounciation",
+    "replace": "pronunciation",
+    "summary": "sp"
+  },
+  {
+    "find": "wierd",
+    "replace": "weird",
+    "summary": "sp"
+  },
+  {
+    "find": "cant",
+    "replace": "can't",
+    "summary": "sp"
+  },
+  {
+    "find": "wont",
+    "replace": "won't",
+    "summary": "sp"
+  },
+  {
+    "find": "isnt",
+    "replace": "isn't",
+    "summary": "sp"
+  },
+  {
+    "find": "theyre",
+    "replace": "they're",
+    "summary": "sp"
+  },
+  {
+    "find": "theyll",
+    "replace": "they'll",
+    "summary": "sp"
+  },
+  {
+    "find": "arent",
+    "replace": "aren't",
+    "summary": "sp"
+  },
+  {
+    "find": "wouldnt",
+    "replace": "wouldn't",
+    "summary": "sp"
+  },
+  {
+    "find": "shouldnt",
+    "replace": "shouldn't",
+    "summary": "sp"
+  },
+  {
+    "find": "couldnt",
+    "replace": "couldn't",
+    "summary": "sp"
+  },
+  {
+    "find": "maintainance",
+    "replace": "maintenance",
+    "summary": "sp"
+  },
+  {
+    "find": "independant",
+    "replace": "independent",
+    "summary": "sp"
+  },
+  {
+    "find": "definately",
+    "replace": "definitely",
+    "summary": "sp"
+  },
+  {
+    "find": "recieve",
+    "replace": "receive",
+    "summary": "sp"
+  }
+]

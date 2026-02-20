@@ -1,0 +1,177 @@
+[
+  {
+    "find": "e[.]?t[.]?c",
+    "replace": "and so on",
+    "summary": "Latin"
+  },
+  {
+    "find": "et cetera",
+    "replace": "and so on",
+    "summary": "Latin"
+  },
+  {
+    "find": "e[.]?g[.]?",
+    "replace": "example",
+    "summary": "Latin"
+  },
+  {
+    "find": "ad naseum",
+    "replace": "to a sickening degree",
+    "summary": "Latin"
+  },
+  {
+    "find": "et al[.]?",
+    "replace": "and others",
+    "summary": "Latin"
+  },
+  {
+    "find": "ibid[.]?",
+    "replace": "in the same source",
+    "summary": "Latin"
+  },
+  {
+    "find": "op cit[.]?",
+    "replace": "in the work cited",
+    "summary": "Latin"
+  },
+  {
+    "find": "sic",
+    "replace": "as quoted",
+    "summary": "Latin"
+  },
+  {
+    "find": "viz",
+    "replace": "namely",
+    "summary": "Latin"
+  },
+  {
+    "find": "cf[.]?",
+    "replace": "compare",
+    "summary": "Latin"
+  },
+  {
+    "find": "passim",
+    "replace": "throughout",
+    "summary": "Latin"
+  },
+  {
+    "find": "verbatim",
+    "replace": "word for word",
+    "summary": "Latin"
+  },
+  {
+    "find": "versus",
+    "replace": "against",
+    "summary": "Latin"
+  },
+  {
+    "find": "circa",
+    "replace": "around",
+    "summary": "Latin"
+  },
+  {
+    "find": "via",
+    "replace": "through",
+    "summary": "Latin"
+  },
+  {
+    "find": "interim",
+    "replace": "meantime",
+    "summary": "Latin"
+  },
+  {
+    "find": "(argumentum|reducio) ad absurdum",
+    "replace": "oversimplifying",
+    "summary": "Latin"
+  },
+  {
+    "find": "i[.]?e[.]?[:]?",
+    "replace": "that is",
+    "summary": "Latin"
+  },
+  {
+    "find": "per se",
+    "replace": "as such",
+    "summary": "Latin"
+  },
+  {
+    "find": "per diem",
+    "replace": "daily",
+    "summary": "Latin"
+  },
+  {
+    "find": "ad hoc",
+    "replace": "for this purpose",
+    "summary": "Latin"
+  },
+  {
+    "find": "pro rata",
+    "replace": "proportionately",
+    "summary": "Latin"
+  },
+  {
+    "find": "bona fides",
+    "replace": "credentials",
+    "summary": "Latin"
+  },
+  {
+    "find": "bona fide",
+    "replace": "genuine",
+    "summary": "Latin"
+  },
+  {
+    "find": "status quo",
+    "replace": "current situation",
+    "summary": "Latin"
+  },
+  {
+    "find": "de facto",
+    "replace": "in practice",
+    "summary": "Latin"
+  },
+  {
+    "find": "per capita",
+    "replace": "each person",
+    "summary": "Latin"
+  },
+  {
+    "find": "a priori",
+    "replace": "assumed",
+    "summary": "Latin"
+  },
+  {
+    "find": "a posteriori",
+    "replace": "based on experience",
+    "summary": "Latin"
+  },
+  {
+    "find": "mea culpa",
+    "replace": "my fault",
+    "summary": "Latin"
+  },
+  {
+    "find": "non sequitur",
+    "replace": "irrelevant point",
+    "summary": "Latin"
+  },
+  {
+    "find": "quid pro quo",
+    "replace": "exchange",
+    "summary": "Latin"
+  },
+  {
+    "find": "alter ego",
+    "replace": "other self",
+    "summary": "Latin"
+  },
+  {
+    "find": "persona non grat(a|is)",
+    "replace": "each person",
+    "summary": "Latin"
+  },
+  {
+    "find": "modus operandi",
+    "replace": "method",
+    "summary": "Latin"
+  }
+]
