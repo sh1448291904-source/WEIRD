@@ -91,12 +91,6 @@ rule_files.each do |rule_path|
     # 3. Save result to _test_new
     File.write(test_new_path, processed_content + "\n")
 
-    rescue JSON::ParserError => e
-      puts "Error: Could not parse #{filename}. Ensure it is valid JSON. #{e.message}"
-      test_failures += 1
-      next
-    end
-
     # 4. Compare with _test-standard
     standard_content = File.read(test_standard_path)
     
@@ -107,6 +101,12 @@ rule_files.each do |rule_path|
       output_diff(test_standard_path, test_new_path)
       test_failures += 1
     end
+
+  rescue JSON::ParserError => e
+    puts "Error: Could not parse #{filename}. Ensure it is valid JSON. #{e.message}"
+    test_failures += 1
+    next
+  end
   end
 
   if test_failures > 0
