@@ -779,7 +779,6 @@ sites.each do |site_cfg|
           puts "    ✓ Saved: #{title}"
         end
       end
-      end
     end
   end
 end
