@@ -2,5 +2,6 @@
 
 source 'https://rubygems.org'
 
-gem 'rubocop'
 gem 'mediawiki-butt', github: 'FTB-Gamepedia/MediaWiki-Butt-Ruby', branch: 'master'
+
+gem 'rubocop'

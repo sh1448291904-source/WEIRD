@@ -21,7 +21,9 @@ def generate_combinations(regex_str)
   # 1. Clean the regex by replacing infinite quantifiers, and look aheads/behinds/arounds to simplify expansion.
   safe_regex_str = regex_str.gsub(/([\w\]])[*+]/, "\\1#{any_string_quantifier}")
                             .gsub(/([\w\]])\{\d+,\}/, "\\1#{any_string_quantifier}")
+                            # rubocop:disable Layout/LineLength
                             .gsub(/\(\?<?[=!][^)]*\)/, any_string_quantifier.to_s) # lookaheads, lookbehinds, lookarounds: (?=...), (?!...), (?<=...), (?<!...)
+                            # rubocop:enable Layout/LineLength
                             .gsub(/\(\?[^)]*\)/, any_string_quantifier) # other non-capturing groups like (?i), (?m) etc
                             .gsub(/(?<!\\)\^/, '') # anchors: ^ (not escaped)
                             .gsub(/(?<!\\)\$/, '') # anchors: $
