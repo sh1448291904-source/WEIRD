@@ -165,12 +165,12 @@
     "summary": "<code>key press</code> --> <kbd>"
   },
   {
-    "find": "(?i)(?<!<kbd>)\\b(Ctrl|Alt|Shift|Enter|Esc|Escape|Delete|Del|Backspace|Insert|Ins|Tab|Caps\\s?Lock|Num\\s?Lock|Scroll(?:\\s?Lock)?|Pause|Break|PrtSc|Print\\s?Screen|Home|End|Page\\s?Up|PgUp|Page\\s?Down|PgDn|Cmd|Command|Meta|Super|Win|Windows|Fn|AltGr|RtAlt|RtShift|RtCtrl|F[1-9]|F1[0-2]|Left[- ]click|Right[- ]click|Mousewheel)\\b(?!<\\/kbd>)",
+    "find": "(?i)(?<!<kbd>)\\b(Ctrl|Alt|Shift|Enter|Esc|Escape|Delete|Del|Backspace|Insert|Ins|Tab|Caps\\s?Lock|Num\\s?Lock|Scroll(\\s?Lock)?|Pause|Break|PrtSc|Print\\s?Screen|Home|End|Page\\s?(Down|Up)|PgUp|PgDn|Cmd|Command|Meta|Super|Win|Flag|Fn|AltGr|RtAlt|RtShift|RtCtrl|F[1-9]|F1[0-2]|Left[- ]click|Right[- ]click|Mousewheel)\\b",
     "replace": "<kbd>\\1</kbd>",
     "summary": "Wrapped keyboard/mouse inputs in <kbd>"
   },
   {
-    "find": "(?i)(?<!<kbd>)\\b(Up|Down|Left|Right)(\\s+arrow\\b(?!<\\/kbd>)",
+    "find": "(?i)(?<!<kbd>)\\b(Up|Down|Left|Right)\\s+arrow\\b(?!<\\/kbd>)",
     "replace": "<kbd>\\1 arrow</kbd>",
     "summary": "Wrapped arrow key descriptions in <kbd> tags"
   },

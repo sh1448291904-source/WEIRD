@@ -10,11 +10,6 @@
     "summary": "Int Eng: '\\1is\\2' --> '\\1iz\\2'"
   },
   {
-    "find": "(analog|catalog|dialog|epilog|monolog|travelog)u(ing|ed)?",
-    "replace": "\\1\\2",
-    "summary": "Int Eng: '\\1u\\2' --> \\1\\2"
-  },
-  {
     "find": "(analog|catalog|dialog|epilog|monolog|travelog)ue(s)?",
     "replace": "\\1\\2",
     "summary": "Int Eng: '\\1ue\\2' --> '\\1\\2'"
@@ -295,12 +290,12 @@
     "summary": "Int Eng: 'motorway\\1' --> 'freeway\\1'"
   },
   {
-    "find": "mould(s?|y?)",
+    "find": "mould(s|y)?",
     "replace": "mold\\1",
     "summary": "Int Eng: 'mould\\1' --> 'mold\\1'"
   },
   {
-    "find": "neighbour(s?|ly?)",
+    "find": "neighbour(s|ly)?",
     "replace": "neighbor\\1",
     "summary": "Int Eng: 'neighbour\\1' --> 'neighbor\\1'"
   },

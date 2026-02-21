@@ -1,6 +1,7 @@
 *creds.json
 sort*
 Rules/*_test_new.json
+test_scratchpad.rb
 
 # Ruby things
 Gemfile.lock
