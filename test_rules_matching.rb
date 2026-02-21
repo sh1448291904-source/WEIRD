@@ -4,7 +4,7 @@ require 'fileutils'
 require 'list_matcher'
 require 'regexp-examples'
 require 'json'
-require_relative 'add_plurals'
+require_relative 'WEIRD'
 
 # Configuration
 
@@ -73,6 +73,7 @@ def run_tests
     test_new_path = File.join(rules_dir, "#{filename}#{RULES_NEW_SUFFIX}#{tests_ext}")
     test_new_replaced_path = File.join(rules_dir, "#{filename}#{RULES_NEW_REPLACED_SUFFIX}#{tests_ext}")
     test_standard_path = File.join(rules_dir, "#{filename}#{RULES_STANDARD_SUFFIX}#{tests_ext}")
+    test_new_replaced_standard_path = File.join(rules_dir, "#{filename}#{RULES_NEW_REPLACED_SUFFIX}#{tests_ext}")
 
     puts "Testing: #{filename}..."
 
