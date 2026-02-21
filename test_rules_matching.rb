@@ -8,7 +8,7 @@ require 'json'
 # Configuration
 
 RULES_NEW_SUFFIX = '_test_new'
-RULES_STANDARD_SUFFIX = '_test-standard'
+RULES_STANDARD_SUFFIX = '_test_standard'
 PASS_COLOR = "\e[32m"
 FAIL_COLOR = "\e[31m"
 RESET_COLOR = "\e[0m"
