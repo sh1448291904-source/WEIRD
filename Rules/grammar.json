@@ -1,17 +1,252 @@
 [
   {
-    "find": "its a",
-    "replace": "it's a",
-    "summary": "Grammar: its -> it's (contraction)"
+    "find": "its (a|not)",
+    "replace": "it's \\1",
+    "summary": "Contraction: its ⇒ it's"
   },
   {
     "find": "in order to",
     "replace": "to",
-    "summary": "Verbosity."
+    "summary": "Verbosity: in order to ⇒ to"
+  },
+  {
+    "find": "as a result of",
+    "replace": "due to",
+    "summary": "Verbosity: as a result of ⇒ due to"
+  },
+  {
+    "find": "by virtue of",
+    "replace": "because of",
+    "summary": "Verbosity: by virtue of ⇒ because of"
+  },
+  {
+    "find": "ahead of",
+    "replace": "before",
+    "summary": "Verbosity: ahead of ⇒ before"
+  },
+  {
+    "find": "(in comparison with|in contrast (to|with))",
+    "replace": "compared to",
+    "summary": "Verbosity: \\1 ⇒ compared to"
+  },
+  {
+    "find": "is in keeping with",
+    "replace": "suits",
+    "summary": "Verbosity: is in keeping with ⇒ suits"
+  },
+  {
+    "find": "was in keeping with",
+    "replace": "suited",
+    "summary": "Verbosity: was in keeping with ⇒ suited"
+  },
+  {
+    "find": "will be in keeping with",
+    "replace": "will suit",
+    "summary": "Verbosity: will be in keeping with ⇒ suited"
+  },
+  {
+    "find": "in light of",
+    "replace": "by",
+    "summary": "Verbosity: in light of ⇒ by"
+  },
+  {
+    "find": "so-so",
+    "replace": "mediocre",
+    "summary": "Idiom: so-so ⇒ mediocre"
+  },
+  {
+    "find": "a hard pill to swallow",
+    "replace": "unpleasant but necessary",
+    "summary": "Idiom: a hard pill to swallow ⇒ unpleasant but necessary"
+  },
+  {
+    "find": "a dime a dozen",
+    "replace": "readily available",
+    "summary": "Idiom: a dime a dozen ⇒ readily available"
+  },
+  {
+    "find": "a hot potato",
+    "replace": "controversial",
+    "summary": "Idiom: a hot potato ⇒ controversial"
+  },
+  {
+    "find": "ace in the hole",
+    "replace": "secret advantage",
+    "summary": "Idiom: ace in the hole ⇒ secret advantage"
+  },
+  {
+    "find": "Achilles' heel",
+    "replace": "small but fatal weakeness",
+    "summary": "Idiom: Achilles' heel ⇒ small but fatal weakeness"
+  },
+  {
+    "find": "all ears",
+    "replace": "very interested",
+    "summary": "Idiom: all ears ⇒ very interested"
+  },
+  {
+    "find": "around the clock",
+    "replace": "non-stop",
+    "summary": "Idiom: around the clock ⇒ non-stop"
+  },
+  {
+    "find": "at the drop of a hat",
+    "replace": "instantly",
+    "summary": "Idiom: at the drop of a hat ⇒ instantly"
+  },
+  {
+    "find": "go back to the drawing board",
+    "replace": "comprehensively revise",
+    "summary": "Idiom: go back to the drawing board ⇒ comprehensively revise"
+  },
+  {
+    "find": "went back to the drawing board",
+    "replace": "comprehensively revised",
+    "summary": "Idiom: went back to the drawing board ⇒ comprehensively revised"
+  },
+  {
+    "find": "will go back to the drawing board",
+    "replace": "will comprehensively revise",
+    "summary": "Idiom: will go back to the drawing board ⇒ comprehensively revised"
+  },
+  {
+    "find": "going back to the drawing board",
+    "replace": "comprehensively revising",
+    "summary": "Idiom: going back to the drawing board ⇒ comprehensively revised"
+  },
+  {
+    "find": "barking up the wrong tree",
+    "replace": "looking in the wrong place",
+    "summary": "Idiom: barking up the wrong tree ⇒ looking in the wrong place"
+  },
+  {
+    "find": "beating a dead horse",
+    "replace": "uselessly dwelling on a dead topic",
+    "summary": "Idiom: beating a dead horse ⇒ uselessly dwelling on a dead topic"
+  },
+  {
+    "find": "best of both worlds",
+    "replace": "great combination of two apparent contradictions",
+    "summary": "Idiom: best of both worlds ⇒ great combination of two apparent contradictions"
+  },
+  {
+    "find": "bite off more than you can chew",
+    "replace": "take on more responsibility than you can manage",
+    "summary": "Idiom: ⇒ "
+  },
+  {
+    "find": "bite off more than (he|she|they|it) can chew",
+    "replace": "take on more responsibility than \\1 can manage",
+    "summary": "Idiom: bite off more than \\1 can chew ⇒ take on more responsibility than \\1 can manage"
+  },
+  {
+    "find": "bite the bullet",
+    "replace": "endure the unpleasantness",
+    "summary": "Idiom: bite the bullet ⇒ endure the unpleasantness"
+  },
+  {
+    "find": "burn(ed|ing)? the midnight oil",
+    "replace": "work\\1 late into the night",
+    "summary": "Idiom: burn\\1 the midnight oil ⇒ work\\1 late into the night"
+  },
+  {
+    "find": "call a spade a spade",
+    "replace": "be bluntly honest",
+    "summary": "Idiom: call a spade a spade ⇒ be bluntly honest"
+  },
+  {
+    "find": "call it a day",
+    "replace": "declare completion",
+    "summary": "Idiom: call it a day ⇒ declare completion"
+  },
+  {
+    "find": "cheap as chips",
+    "replace": "very inexpensive",
+    "summary": "Idiom: cheap as chips ⇒ very inexpensive"
+  },
+  {
+    "find": "Mess(ed|ing)? about",
+    "replace": "fail\\1 to make progress",
+    "summary": "Idiom: Mess\\1 about ⇒ fail\\1 to make progress"
+  },
+  {
+    "find": "don't count your chickens before they hatch",
+    "replace": "don't make assumptions about a variable outcome",
+    "summary": "Idiom: don't count your chickens before they hatch ⇒ don't make assumptions about a variable outcome"
+  },
+  {
+    "find": "elephant in the room",
+    "replace": "issue that is obvious, but unaddressed because it's highly sensitive",
+    "summary": "Idiom: elephant in the room ⇒ issue that is obvious, but unaddressed because it's highly sensitive"
+  },
+  {
+    "find": "eleventh hour",
+    "replace": "the latest possible moment",
+    "summary": "Idiom: eleventh hour ⇒ the latest possible moment"
+  },
+  {
+    "find": "from scratch",
+    "replace": "from nothing",
+    "summary": "Idiom: from scratch ⇒ from nothing"
+  },
+  {
+    "find": "ducks in a row",
+    "replace": "preparations completed",
+    "summary": "Idiom: ducks in a row ⇒ preparations completed"
+  },
+  {
+    "find": "in over (one's|my|your|our|his|her|their) head",
+    "replace": "overwhelmed",
+    "summary": "Idiom: in over \\1 head ⇒ overwhelmed"
+  },
+  {
+    "find": "it is what it is",
+    "replace": "it can't be changed",
+    "summary": "Idiom: it is what it is ⇒ it can't be changed"
+  },
+  {
+    "find": "kill two birds with one stone",
+    "replace": "accomplish two goals at once",
+    "summary": "Idiom: kill two birds with one stone ⇒ accomplish two goals at once"
+  },
+  {
+    "find": "method to (one's|my|your|his|her|their) madness",
+    "replace": "hidden logic",
+    "summary": "Idiom: method to (one's|my|your|his|her|their) madness ⇒ hidden logic"
+  },
+  {
+    "find": "once in a blue moon",
+    "replace": "very rarely",
+    "summary": "Idiom: once in a blue moon ⇒ very rarely"
+  },
+  {
+    "find": "a piece of cake",
+    "replace": "an easy task",
+    "summary": "Idiom: ⇒ "
+  },
+  {
+    "find": "push(es|ed|ing)? the envelope",
+    "replace": "extend\\1 the possible limits",
+    "summary": "Idiom: push\\1 the envelope ⇒ extend\\1 the possible limits"
+  },
+  {
+    "find": "throw the baby out with the bathwater",
+    "replace": "inadvertently discard something valuable while discarding undesireable",
+    "summary": "Idiom: throw the baby out with the bathwater ⇒ inadvertently discard something valuable while discarding undesireable"
+  },
+  {
+    "find": "the whole nine yards",
+    "replace": "all the way",
+    "summary": "Idiom: the whole nine yards ⇒ all the way"
+  },
+  {
+    "find": "wild goose chase",
+    "replace": "a largely pointless exercise",
+    "summary": "Idiom: ⇒ "
   },
   {
     "find": "their are",
     "replace": "there are",
-    "summary": "Grammar: their -> there."
+    "summary": "Grammar: their ⇒ there."
   }
 ]

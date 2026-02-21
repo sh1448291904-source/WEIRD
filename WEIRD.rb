@@ -63,17 +63,14 @@
 #   remove false positives from the whitelist into the actual site whitelist and fix what remains.
 #
 # check for too many prepositions in a sentence, probable wordiness.
-#   about, above, across, after, against, along, amid, among, around, at, before, behind, below, beneath, beside, besides, between, beyond, by,
-#   concerning, considering, despite, down, during, except, for, from, in, inside, into, like, near, of, off, on, onto, opposite, out, outside,
-#   over, past, per, regarding, round, since, than, through, throughout, till, to, toward, towards, under, underneath, unlike, until, up, upon, via,
-#   with, within, without
+
 #
-#   according to, adjacent to, ahead of, along with, apart from, as for, as of, as per, as to, aside from, away from, because of, close to, due to,
+#   according to, adjacent to, along with, apart from, as for, as of, as per, as to, aside from, away from, because of, close to, due to,
 #   except for, far from, in addition to, in case of, in front of, in lieu of, in place of, in spite of, instead of, next to, on account of,
 #   on behalf of, on top of, out of, outside of, owing to, prior to, regardless of, subsequent to, together with, up to
 #
-#   as a result of, at the expense of, by means of, by virtue of, by way of, in accordance with, in back of, in comparison with, in contrast to,
-#   in keeping with, in light of, in order to, in place of, in reference to, in regard to, in relation to, in respect of, in terms of,
+#   at the expense of, by way of, in accordance with, in [the ]?back of,
+#   in light of, in order to, in place of, in reference to, in regard to, in relation to, in respect of, in terms of,
 #   in the event of, in the face of, in view of, on the basis of, on the part of, on the side of, with reference to, with regard to,
 #   with respect to, with the exception of
 #

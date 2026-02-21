@@ -52,7 +52,7 @@
   {
     "find": "<([bh])r\\s*\\/?>",
     "replace": "<br />",
-    "summary": "<\\1r> --> <\\1r />."
+    "summary": "<\\1r> ⇒ <\\1r />."
   },
   {
     "find": "(?<![\\{\\[\\|])(?<=\\S)\\s*[\\|!]{1,2}\\s*(?=\\S)(?![\\}\\]])",
@@ -87,27 +87,27 @@
   {
     "find": "<center>(.+?)<\\/center>",
     "replace": "<div style=\"text-align: center;\">\\1</div>",
-    "summary": "<center> --> div."
+    "summary": "<center> ⇒ div."
   },
   {
     "find": "<font color=\"?([^\">]+)\"?>(.+?)<\\/font>",
     "replace": "<span style=\"color: \\1;\">\\2</span>",
-    "summary": "<font> --> span."
+    "summary": "<font> ⇒ span."
   },
   {
     "find": "\\|thumbnail(?=[\\|\\]])",
     "replace": "|thumb",
-    "summary": "'|thumbnail' --> '|thumb'."
+    "summary": "'|thumbnail' ⇒ '|thumb'."
   },
   {
     "find": "\\[\\[((https?|udp|ftp|sftp|pop3|imap):\\/\\/[^\\]\\s]+)\\s+([^\\]]+)\\]\\]",
     "replace": "[\\1 \\2]",
-    "summary": "[[external_link comment]] --> []."
+    "summary": "[[external_link comment]] ⇒ []."
   },
   {
     "find": "\\[\\[((https?|udp|ftp|sftp|pop3|imap):\\/\\/[^\\]]+)\\]\\]",
     "replace": "[\\1]",
-    "summary": "[[external_link]] --> []."
+    "summary": "[[external_link]] ⇒ []."
   },
   {
     "find": "<\\/ref>\\s+<ref",
@@ -117,52 +117,52 @@
   {
     "find": "<big>(.+?)<\\/big>",
     "replace": "<span style=\"font-size: 120%;\">\\1</span>",
-    "summary": "<big> --> span."
+    "summary": "<big> ⇒ span."
   },
   {
     "find": "<small>(.+?)<\\/small>",
     "replace": "<span style=\"font-size: 80%;\">\\1</span>",
-    "summary": "<small> --> span."
+    "summary": "<small> ⇒ span."
   },
   {
     "find": "<tt>(.+?)<\\/tt>",
     "replace": "<code>\\1</code>",
-    "summary": "<tt> --> <code>."
+    "summary": "<tt> ⇒ <code>."
   },
   {
     "find": "<u>(.+?)<\\/u>",
     "replace": "<span style=\"text-decoration: underline;\">\\1</span>",
-    "summary": "<u> --> span."
+    "summary": "<u> ⇒ span."
   },
   {
     "find": "<(\\/)?(dir|menu)>",
     "replace": "<\\1ul>",
-    "summary": "<\\1\\2> --> <\\1ul>."
+    "summary": "<\\1\\2> ⇒ <\\1ul>."
   },
   {
     "find": "<br\\s+clear=\"?(all|both)\"?\\s*\\/?>",
     "replace": "{{clear}}",
-    "summary": "<br clear> --> {{clear}}."
+    "summary": "<br clear> ⇒ {{clear}}."
   },
   {
     "find": "<div align=\"?(left|right|center)\"?>(.+?)<\\/div>",
     "replace": "<div style=\"text-align: \\1;\">\\2</div>",
-    "summary": "div align --> CSS style."
+    "summary": "div align ⇒ CSS style."
   },
   {
     "find": "<td align=\"?(left|right|center)\"?>",
     "replace": "<td style=\"text-align: \\1;\">",
-    "summary": "table cell align --> CSS style."
+    "summary": "table cell align ⇒ CSS style."
   },
   {
     "find": "<(?:s|strike|strikethrough)>(.*?)<\\/(?:s|strike|strikethrough)>",
     "replace": "<span style=\"text-decoration: line-through;\">\\1</span>",
-    "summary": "strikethrough tags --> span"
+    "summary": "strikethrough tags ⇒ span"
   },
   {
     "find": "<code>(Ctrl|Alt|Shift|Enter|Esc|Escape|Delete|Del|Backspace|Insert|Ins|Tab|Caps\\s?Lock|Num\\s?Lock|Scroll(?:\\s?Lock)?|Pause|Break|PrtSc|Print\\s?Screen|Home|End|Page\\s?Up|PgUp|Page\\s?Down|PgDn|Cmd|Command|Meta|Super|Win|Windows|Fn|AltGr|RtAlt|RtShift|RtCtrl|F[1-9]|F1[0-2]|Left-click|Right-click|Mousewheel|[↑↓←→])<\\/code>",
     "replace": "<kbd>\\1</kbd>",
-    "summary": "<code>key press</code> --> <kbd>"
+    "summary": "<code>key press</code> ⇒ <kbd>"
   },
   {
     "find": "(?i)(?<!<kbd>)\\b(Ctrl|Alt|Shift|Enter|Esc|Escape|Delete|Del|Backspace|Insert|Ins|Tab|Caps\\s?Lock|Num\\s?Lock|Scroll(\\s?Lock)?|Pause|Break|PrtSc|Print\\s?Screen|Home|End|Page\\s?(Down|Up)|PgUp|PgDn|Cmd|Command|Meta|Super|Win|Flag|Fn|AltGr|RtAlt|RtShift|RtCtrl|F[1-9]|F1[0-2]|Left[- ]click|Right[- ]click|Mousewheel)\\b",
