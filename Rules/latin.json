@@ -2,176 +2,181 @@
   {
     "find": "e[.]?t[.]?c",
     "replace": "and so on",
-    "summary": "Latin"
+    "summary": "Latin: etc ⇒ and so on"
   },
   {
     "find": "et cetera",
     "replace": "and so on",
-    "summary": "Latin"
+    "summary": "Latin: et cetera ⇒ and so on"
   },
   {
     "find": "e[.]?g[.]?",
     "replace": "example",
-    "summary": "Latin"
+    "summary": "Latin: eg ⇒ example"
   },
   {
     "find": "ad naseum",
     "replace": "to a sickening degree",
-    "summary": "Latin"
+    "summary": "Latin: ad naseum ⇒ to a sickening degree"
   },
   {
     "find": "et al[.]?",
     "replace": "and others",
-    "summary": "Latin"
+    "summary": "Latin: et al ⇒ and others"
   },
   {
     "find": "ibid[.]?",
     "replace": "in the same source",
-    "summary": "Latin"
+    "summary": "Latin: ibid ⇒ in the same source"
+  },
+  {
+    "find": "in lieu",
+    "replace": "instead",
+    "summary": "Latin: in lieu ⇒ instead"
   },
   {
     "find": "op cit[.]?",
     "replace": "in the work cited",
-    "summary": "Latin"
+    "summary": "Latin: op cit ⇒ in the work cited"
   },
   {
     "find": "sic",
     "replace": "as quoted",
-    "summary": "Latin"
+    "summary": "Latin: sic ⇒ as quoted"
   },
   {
     "find": "viz",
     "replace": "namely",
-    "summary": "Latin"
+    "summary": "Latin: viz ⇒ namely"
   },
   {
     "find": "cf[.]?",
     "replace": "compare",
-    "summary": "Latin"
+    "summary": "Latin: cf ⇒ compare"
   },
   {
     "find": "passim",
     "replace": "throughout",
-    "summary": "Latin"
+    "summary": "Latin: passim ⇒ throughout"
   },
   {
     "find": "verbatim",
     "replace": "word for word",
-    "summary": "Latin"
+    "summary": "Latin: verbatim ⇒ word for word"
   },
   {
     "find": "versus",
     "replace": "against",
-    "summary": "Latin"
+    "summary": "Latin: versus ⇒ against"
   },
   {
     "find": "circa",
     "replace": "around",
-    "summary": "Latin"
+    "summary": "Latin: circa ⇒ around"
   },
   {
     "find": "via",
     "replace": "through",
-    "summary": "Latin"
+    "summary": "Latin: via ⇒ through"
   },
   {
     "find": "interim",
     "replace": "meantime",
-    "summary": "Latin"
+    "summary": "Latin: interim ⇒ meantime"
   },
   {
-    "find": "(argumentum|reducio) ad absurdum",
+    "find": "(argumentum|reductio) ad absurdum",
     "replace": "oversimplifying",
-    "summary": "Latin"
+    "summary": "Latin: \\1 ad absurdum ⇒ oversimplifying"
   },
   {
     "find": "i[.]?e[.]?[:]?",
     "replace": "that is",
-    "summary": "Latin"
+    "summary": "Latin: ie ⇒ that is"
   },
   {
     "find": "per se",
     "replace": "as such",
-    "summary": "Latin"
+    "summary": "Latin: per se ⇒ as such"
   },
   {
     "find": "per diem",
     "replace": "daily",
-    "summary": "Latin"
+    "summary": "Latin: per diem ⇒ daily"
+  },
+  {
+    "find": "per annum",
+    "replace": "yearly",
+    "summary": "Latin: per annum ⇒ yearly"
   },
   {
     "find": "ad hoc",
     "replace": "for this purpose",
-    "summary": "Latin"
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "pro rata",
     "replace": "proportionately",
-    "summary": "Latin"
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "bona fides",
     "replace": "credentials",
-    "summary": "Latin"
-  },
-  {
-    "find": "bona fide",
-    "replace": "genuine",
-    "summary": "Latin"
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "status quo",
     "replace": "current situation",
-    "summary": "Latin"
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "de facto",
     "replace": "in practice",
-    "summary": "Latin"
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "per capita",
     "replace": "each person",
-    "summary": "Latin"
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "a priori",
     "replace": "assumed",
-    "summary": "Latin"
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "a posteriori",
     "replace": "based on experience",
-    "summary": "Latin"
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "mea culpa",
     "replace": "my fault",
-    "summary": "Latin"
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "non sequitur",
     "replace": "irrelevant point",
-    "summary": "Latin"
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "quid pro quo",
     "replace": "exchange",
-    "summary": "Latin"
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "alter ego",
     "replace": "other self",
-    "summary": "Latin"
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "persona non grat(a|is)",
     "replace": "each person",
-    "summary": "Latin"
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "modus operandi",
     "replace": "method",
-    "summary": "Latin"
+    "summary": "Latin: ⇒ "
   }
 ]
