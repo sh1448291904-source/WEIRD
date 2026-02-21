@@ -313,7 +313,7 @@ def get_glossary_terms(wiki)
 
   # Extract all wiki tables {| ... |}
   # Tables contain rows separated by |-, cells separated by | or ||
-  tables = glossary_text.scan(/\{\|(.*?)\|\}/m)
+  tables = glossary_text.scan(/\{\|(.*?)\|}/m)
   status('glossary_tables_found', tables.length, false, :verbose)
 
   tables.each_with_index do |table_content, table_idx|
@@ -570,7 +570,7 @@ end
 # Ensure 1 cat / line and proper spacing. Ignores referenced categories [[:Category:Blah]].
 def categories_to_bottom(text)
   # Recursive regex for balanced {{template}} structures
-  template_pattern = /\{\{(?:[^{}]|\g<0>)*\}\}/
+  template_pattern = /\{\{(?:[^{}]|\g<0>)*}}/
 
   # 1. Collect only 'loose' categories (outside of templates)
   categories = []
