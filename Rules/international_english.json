@@ -10,12 +10,12 @@
     "summary": "Int Eng: '\\1is\\2' --> '\\1iz\\2'"
   },
   {
-    "find": "(analog|catalog|dialog|epilog|monolog|travelog)ue(s)?",
+    "find": "(analog|catalog|dialog|epilog|monolog|travelog)ues?",
     "replace": "\\1\\2",
     "summary": "Int Eng: '\\1ue\\2' --> '\\1\\2'"
   },
   {
-    "find": "(anal|paral)ys(e|ed|es|er|ing)",
+    "find": "(anal|paral)ys(e|ed|es|ers?|ing)",
     "replace": "\\1yz\\2",
     "summary": "Int Eng: '\\1ys\\2' --> '\\1yze\\2'"
   },
@@ -35,12 +35,12 @@
     "summary": "Int Eng: '\\1ll\\2' --> '\\1l\\2'"
   },
   {
-    "find": "(de|of)fenc(e|es|eless|ive)",
+    "find": "(de|of)fenc(es?|eless|ive)",
     "replace": "\\1fens\\2",
     "summary": "Int Eng: '\\1fenc\\2' --> '\\1fens\\2'"
   },
   {
-    "find": "(enro|fulfi|insti)l(s|ment)?",
+    "find": "(enro|fulfi|insti)l(s|ments?)?",
     "replace": "\\1ll\\2",
     "summary": "Int Eng: '\\1l\\2' --> '\\1ll\\2'"
   },
@@ -150,7 +150,7 @@
     "summary": "Int Eng: 'artefact\\1' --> 'artifact\\1'"
   },
   {
-    "find": "behaviourist(s)",
+    "find": "behaviourist(s)?",
     "replace": "behaviorist\\1",
     "summary": "Int Eng: 'behaviourist\\1' --> 'behaviorist\\1'"
   },

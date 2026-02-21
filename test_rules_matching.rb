@@ -4,11 +4,14 @@ require 'fileutils'
 require 'list_matcher'
 require 'regexp-examples'
 require 'json'
+require_relative 'add_plurals'
 
 # Configuration
 
 RULES_NEW_SUFFIX = '_test_new'
+RULES_NEW_REPLACED_SUFFIX = '_test_new_replaced'
 RULES_STANDARD_SUFFIX = '_test_standard'
+RULES_STANDARD_REPLACED_SUFFIX = '_test_replaced_standard'
 PASS_COLOR = "\e[32m"
 FAIL_COLOR = "\e[31m"
 RESET_COLOR = "\e[0m"
@@ -58,6 +61,7 @@ end
 def run_tests
   rules_dir = 'Rules'
   rules_ext = '.json'
+  tests_ext = '.txt'
   test_failures = 0
 
   # Find all the actual rules files
@@ -66,8 +70,9 @@ def run_tests
   rule_files.each do |rule_path|
     filename = File.basename(rule_path, rules_ext)
 
-    test_new_path = File.join(rules_dir, "#{filename}#{RULES_NEW_SUFFIX}#{rules_ext}")
-    test_standard_path = File.join(rules_dir, "#{filename}#{RULES_STANDARD_SUFFIX}#{rules_ext}")
+    test_new_path = File.join(rules_dir, "#{filename}#{RULES_NEW_SUFFIX}#{tests_ext}")
+    test_new_replaced_path = File.join(rules_dir, "#{filename}#{RULES_NEW_REPLACED_SUFFIX}#{tests_ext}")
+    test_standard_path = File.join(rules_dir, "#{filename}#{RULES_STANDARD_SUFFIX}#{tests_ext}")
 
     puts "Testing: #{filename}..."
 
@@ -94,6 +99,10 @@ def run_tests
       # 3. Save result to _test_new
       File.write(test_new_path, "#{processed_content}\n")
 
+      # TO DO Waiting on changes to WEIRD
+      processed_content = run_rules_on_page(rulepath, processed_content)
+      File.write(test_new_replaced_path, "#{processed_content}\n")
+
       # 4. Compare with _test-standard
       # If the standard file doesn't exist, we consider this a failure and skip comparison
       unless File.exist?(test_standard_path)
@@ -104,13 +113,15 @@ def run_tests
 
       standard_content = File.read(test_standard_path)
 
-      if processed_content == standard_content
-        puts "#{PASS_COLOR}  [PASS] Results match standard.#{RESET_COLOR}"
-      else
+      unless processed_content == standard_content
         puts "#{FAIL_COLOR}  [FAIL] Results differ from standard! Diff below:#{RESET_COLOR}"
         output_diff(test_standard_path, test_new_path)
         test_failures += 1
+        next
       end
+
+      puts "#{PASS_COLOR}  [PASS] Expansion results match standard.#{RESET_COLOR}"
+    # TO DO Compare test_new_replaced_path against test_new_replaced_standard_path
     rescue JSON::ParserError => e
       puts "Error: Could not parse #{filename}. Ensure it is valid JSON. #{e.message}"
       test_failures += 1
