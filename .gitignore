@@ -1,4 +1,5 @@
-*creds.json
+sites/*_creds.json
+!sites/SITENAME_creds.json
 sort*
 rules/*_test_new.txt
 *scratch*
