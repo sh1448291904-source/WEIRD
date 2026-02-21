@@ -1,7 +1,9 @@
-*creds.json
+sites/*_creds.json
+!sites/SITENAME_creds.json
 sort*
-Rules/*_test_new.txt
-test_scratchpad.rb
+rules/*_test_new.txt
+*scratch*
+*example*
 
 # Ruby things
 Gemfile.lock
