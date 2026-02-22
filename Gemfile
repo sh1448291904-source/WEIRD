@@ -4,4 +4,5 @@ source 'https://rubygems.org'
 
 gem 'mediawiki-butt', github: 'FTB-Gamepedia/MediaWiki-Butt-Ruby', branch: 'master'
 
+gem 'logger'
 gem 'rubocop'

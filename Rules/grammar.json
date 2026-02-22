@@ -1,17 +1,87 @@
 [
   {
-    "find": "its a",
-    "replace": "it's a",
-    "summary": "Grammar: its -> it's (contraction)"
+    "find": "its (a|not)",
+    "replace": "it's \\1",
+    "summary": "Contraction: its ⇒ it's"
+  },
+  {
+    "find": "(in/with) ((reference|regards?|relation|respect|terms) (to|of)",
+    "replace": "regarding",
+    "summary": "Verbosity: \\1 \\2 \\3 ⇒ regarding"
+  },
+  {
+    "find": "on the basis of",
+    "replace": "based on",
+    "summary": "Verbosity: on the basis of ⇒ based on"
+  },
+  {
+    "find": "with the exception of",
+    "replace": "excluding",
+    "summary": "Verbosity: with the exception of ⇒ excluding"
+  },
+  {
+    "find": "in view of",
+    "replace": "because of",
+    "summary": "Verbosity: in view of ⇒ because of"
   },
   {
     "find": "in order to",
     "replace": "to",
-    "summary": "Verbosity."
+    "summary": "Verbosity: in order to ⇒ to"
+  },
+  {
+    "find": "subsequent to",
+    "replace": "since",
+    "summary": "Verbosity: subsequent to ⇒ since"
+  },
+  {
+    "find": "(as a result of|owing to)",
+    "replace": "due to",
+    "summary": "Verbosity: \\1 ⇒ due to"
+  },
+  {
+    "find": "by virtue of",
+    "replace": "because of",
+    "summary": "Verbosity: by virtue of ⇒ because of"
+  },
+  {
+    "find": "ahead of",
+    "replace": "before",
+    "summary": "Verbosity: ahead of ⇒ before"
+  },
+  {
+    "find": "(in comparison with|in contrast (to|with))",
+    "replace": "compared to",
+    "summary": "Verbosity: \\1 ⇒ compared to"
+  },
+  {
+    "find": "is in keeping with",
+    "replace": "suits",
+    "summary": "Verbosity: is in keeping with ⇒ suits"
+  },
+  {
+    "find": "was in keeping with",
+    "replace": "suited",
+    "summary": "Verbosity: was in keeping with ⇒ suited"
+  },
+  {
+    "find": "will be in keeping with",
+    "replace": "will suit",
+    "summary": "Verbosity: will be in keeping with ⇒ suited"
+  },
+  {
+    "find": "in light of",
+    "replace": "by",
+    "summary": "Verbosity: in light of ⇒ by"
+  },
+  {
+    "find": "prior to",
+    "replace": "before",
+    "summary": "Verbosity: prior to ⇒ before"
   },
   {
     "find": "their are",
     "replace": "there are",
-    "summary": "Grammar: their -> there."
+    "summary": "Homophone: their ⇒ there."
   }
 ]

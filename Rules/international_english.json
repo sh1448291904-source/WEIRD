@@ -2,366 +2,366 @@
   {
     "find": "([ei])nvigour",
     "replace": "invigorate",
-    "summary": "Int Eng: '\\1nvigour' --> 'invigorate'"
+    "summary": "Int Eng: '\\1nvigour' ⇒ 'invigorate'"
   },
   {
     "find": "(advert|author|character|colour|crtitic|organ|real|recogn|special|standard|sympath|vulcan)is(e|es|ed|ers|ing)",
     "replace": "\\1iz\\2",
-    "summary": "Int Eng: '\\1is\\2' --> '\\1iz\\2'"
+    "summary": "Int Eng: '\\1is\\2' ⇒ '\\1iz\\2'"
   },
   {
     "find": "(analog|catalog|dialog|epilog|monolog|travelog)ues?",
     "replace": "\\1\\2",
-    "summary": "Int Eng: '\\1ue\\2' --> '\\1\\2'"
+    "summary": "Int Eng: '\\1ue\\2' ⇒ '\\1\\2'"
   },
   {
     "find": "(anal|paral)ys(e|ed|es|ers?|ing)",
     "replace": "\\1yz\\2",
-    "summary": "Int Eng: '\\1ys\\2' --> '\\1yze\\2'"
+    "summary": "Int Eng: '\\1ys\\2' ⇒ '\\1yze\\2'"
   },
   {
     "find": "(arm|behavi|col|demean|fav|glam|harb|hon|hum|lab|rum|splend|tum)our(s|ed|ings?)?",
     "replace": "\\1or\\2",
-    "summary": "Int Eng: '\\1our\\2' --> '\\1or\\2'"
+    "summary": "Int Eng: '\\1our\\2' ⇒ '\\1or\\2'"
   },
   {
     "find": "(author|character|colour|organ|real|special|standard)isation(s)?",
     "replace": "\\1ization\\2",
-    "summary": "Int Eng: '\\1isation\\2' --> '\\1ization\\2'"
+    "summary": "Int Eng: '\\1isation\\2' ⇒ '\\1ization\\2'"
   },
   {
     "find": "(cance|fue|leve|mode|trave)ll(ed|ings?)",
     "replace": "\\1l\\2",
-    "summary": "Int Eng: '\\1ll\\2' --> '\\1l\\2'"
+    "summary": "Int Eng: '\\1ll\\2' ⇒ '\\1l\\2'"
   },
   {
     "find": "(de|of)fenc(es?|eless|ive)",
     "replace": "\\1fens\\2",
-    "summary": "Int Eng: '\\1fenc\\2' --> '\\1fens\\2'"
+    "summary": "Int Eng: '\\1fenc\\2' ⇒ '\\1fens\\2'"
   },
   {
     "find": "(enro|fulfi|insti)l(s|ments?)?",
     "replace": "\\1ll\\2",
-    "summary": "Int Eng: '\\1l\\2' --> '\\1ll\\2'"
+    "summary": "Int Eng: '\\1l\\2' ⇒ '\\1ll\\2'"
   },
   {
     "find": "(goit|lit|mit|nit|tit|reconnoit|calib|cent|fib|lust|meag|met|och|sab|saltpet|sepulch|somb|theat)re(s)?",
     "replace": "\\er\\2",
-    "summary": "Int Eng: '\\1re\\2' --> '\\1er\\2'"
+    "summary": "Int Eng: '\\1re\\2' ⇒ '\\1er\\2'"
   },
   {
     "find": "(mano?euvr)(e|es|ed|ings?|able)",
     "replace": "maneuver\\2",
-    "summary": "Int Eng: '\\1\\2' --> 'maneuver\\2'"
+    "summary": "Int Eng: '\\1\\2' ⇒ 'maneuver\\2'"
   },
   {
     "find": "(r|v)igour(ous(ly)?)?",
     "replace": "\\1igor\\2",
-    "summary": "Int Eng: '\\1igour\\2' --> '\\1igor\\2'"
+    "summary": "Int Eng: '\\1igour\\2' ⇒ '\\1igor\\2'"
   },
   {
     "find": "(straight|right) away",
     "replace": "immediately",
-    "summary": "Int Eng & idiomatic: '\\1 away' --> 'immediately'"
+    "summary": "Int Eng & idiomatic: '\\1 away' ⇒ 'immediately'"
   },
   {
     "find": "(un)?skilful(ly)?",
     "replace": "\\1skillful\\2",
-    "summary": "Int Eng: '\\1skilful\\2' --> '\\1skillful\\2'"
+    "summary": "Int Eng: '\\1skilful\\2' ⇒ '\\1skillful\\2'"
   },
   {
     "find": "(zebra|pedestrian) crossing(s)?",
     "replace": "crosswalk\\1",
-    "summary": "Int Eng: '\\1 crossing\\2' --> 'crosswalk\\2'"
+    "summary": "Int Eng: '\\1 crossing\\2' ⇒ 'crosswalk\\2'"
   },
   {
     "find": "abseil(s|ing|ed|ers?)?",
     "replace": "rappel\\1",
-    "summary": "Int Eng: 'abseil\\1' --> 'rappel\\1'"
+    "summary": "Int Eng: 'abseil\\1' ⇒ 'rappel\\1'"
   },
   {
     "find": "accoutrement(s)?",
     "replace": "accouterment\\1",
-    "summary": "Int Eng: 'accoutrement\\1' --> 'accouterment\\1'"
+    "summary": "Int Eng: 'accoutrement\\1' ⇒ 'accouterment\\1'"
   },
   {
     "find": "advertisement(s)?",
     "replace": "advertizement\\1",
-    "summary": "Int Eng: 'advertisement\\1' --> 'advertizement\\1'"
+    "summary": "Int Eng: 'advertisement\\1' ⇒ 'advertizement\\1'"
   },
   {
     "find": "aeon(s)?",
     "replace": "eon\\1",
-    "summary": "Int Eng: 'aeon\\1' --> 'eon\\1'"
+    "summary": "Int Eng: 'aeon\\1' ⇒ 'eon\\1'"
   },
   {
     "find": "aeroplane(s)?",
     "replace": "airplane\\1",
-    "summary": "Int Eng: 'aeroplane\\1' --> 'airplane\\1'"
+    "summary": "Int Eng: 'aeroplane\\1' ⇒ 'airplane\\1'"
   },
   {
     "find": "afters",
     "replace": "dessert",
-    "summary": "Int Eng: 'afters' --> 'dessert'"
+    "summary": "Int Eng: 'afters' ⇒ 'dessert'"
   },
   {
     "find": "amok",
     "replace": "amuck",
-    "summary": "Int Eng: 'amok' --> 'amuck'"
+    "summary": "Int Eng: 'amok' ⇒ 'amuck'"
   },
   {
     "find": "amongst",
     "replace": "among",
-    "summary": "Int Eng: 'amongst' --> 'among'"
+    "summary": "Int Eng: 'amongst' ⇒ 'among'"
   },
   {
     "find": "annexe",
     "replace": "annex",
-    "summary": "Int Eng: 'annexe' --> 'annex'"
+    "summary": "Int Eng: 'annexe' ⇒ 'annex'"
   },
   {
     "find": "anorak(s)?",
     "replace": "parka\\1",
-    "summary": "Int Eng: 'anorak\\1' --> 'parka\\1'"
+    "summary": "Int Eng: 'anorak\\1' ⇒ 'parka\\1'"
   },
   {
     "find": "answerphone(s)?",
     "replace": "answering machine\\1",
-    "summary": "Int Eng: 'answerphone\\1' --> 'answering machine\\1'"
+    "summary": "Int Eng: 'answerphone\\1' ⇒ 'answering machine\\1'"
   },
   {
     "find": "anti(-)?clockwise",
     "replace": "counterclockwise",
-    "summary": "Int Eng: 'anti\\1clockwise' --> 'counterclockwise'"
+    "summary": "Int Eng: 'anti\\1clockwise' ⇒ 'counterclockwise'"
   },
   {
     "find": "arse over tit",
     "replace": "head over heels",
-    "summary": "Int Eng: 'arse over tit' --> 'head over heels'"
+    "summary": "Int Eng: 'arse over tit' ⇒ 'head over heels'"
   },
   {
     "find": "arse(s)?",
     "replace": "buttock\\1",
-    "summary": "Int Eng: 'arse\\1' --> 'buttock\\1'"
+    "summary": "Int Eng: 'arse\\1' ⇒ 'buttock\\1'"
   },
   {
     "find": "artefact(s)?",
     "replace": "artifact\\1",
-    "summary": "Int Eng: 'artefact\\1' --> 'artifact\\1'"
+    "summary": "Int Eng: 'artefact\\1' ⇒ 'artifact\\1'"
   },
   {
     "find": "behaviourist(s)?",
     "replace": "behaviorist\\1",
-    "summary": "Int Eng: 'behaviourist\\1' --> 'behaviorist\\1'"
+    "summary": "Int Eng: 'behaviourist\\1' ⇒ 'behaviorist\\1'"
   },
   {
     "find": "centr(ed|ing)",
     "replace": "center\\1",
-    "summary": "Int Eng: 'centr\\1' --> 'center\\1'"
+    "summary": "Int Eng: 'centr\\1' ⇒ 'center\\1'"
   },
   {
     "find": "cheque(s)?",
     "replace": "check\\1",
-    "summary": "Int Eng: 'cheque\\1' --> 'check\\1'"
+    "summary": "Int Eng: 'cheque\\1' ⇒ 'check\\1'"
   },
   {
     "find": "chequing",
     "replace": "checking",
-    "summary": "Int Eng: 'chequing' --> 'checking'"
+    "summary": "Int Eng: 'chequing' ⇒ 'checking'"
   },
   {
     "find": "colouration(s)?",
     "replace": "coloration\\1",
-    "summary": "Int Eng: 'colouration\\1' --> 'coloration\\1'"
+    "summary": "Int Eng: 'colouration\\1' ⇒ 'coloration\\1'"
   },
   {
     "find": "cosy",
     "replace": "cozy",
-    "summary": "Int Eng: 'cosy' --> 'cozy'"
+    "summary": "Int Eng: 'cosy' ⇒ 'cozy'"
   },
   {
     "find": "earthed",
     "replace": "grounded",
-    "summary": "Int Eng: 'earthed' --> 'grounded'"
+    "summary": "Int Eng: 'earthed' ⇒ 'grounded'"
   },
   {
     "find": "faeces",
     "replace": "feces",
-    "summary": "Int Eng: 'faeces' --> 'feces'"
+    "summary": "Int Eng: 'faeces' ⇒ 'feces'"
   },
   {
     "find": "flyover(s)?",
     "replace": "overpass\\1",
-    "summary": "Int Eng: 'flyover\\1' --> 'overpass\\1'"
+    "summary": "Int Eng: 'flyover\\1' ⇒ 'overpass\\1'"
   },
   {
     "find": "foetid",
     "replace": "fetid",
-    "summary": "Int Eng: 'foetid' --> 'fetid'"
+    "summary": "Int Eng: 'foetid' ⇒ 'fetid'"
   },
   {
     "find": "foetus",
     "replace": "fetus",
-    "summary": "Int Eng: 'foetus' --> 'fetus'"
+    "summary": "Int Eng: 'foetus' ⇒ 'fetus'"
   },
   {
     "find": "gaol(s)?",
     "replace": "jail\\1",
-    "summary": "Int Eng: 'gaol\\1' --> 'jail\\1'"
+    "summary": "Int Eng: 'gaol\\1' ⇒ 'jail\\1'"
   },
   {
     "find": "gear( )?box",
     "replace": "transmission",
-    "summary": "Int Eng: 'gear\\1box' --> 'transmission'"
+    "summary": "Int Eng: 'gear\\1box' ⇒ 'transmission'"
   },
   {
     "find": "gear( ?)boxes",
     "replace": "transmissions",
-    "summary": "Int Eng: 'gear boxes' --> 'transmissions'"
+    "summary": "Int Eng: 'gear boxes' ⇒ 'transmissions'"
   },
   {
     "find": "gear(-| )?(lever|stick)",
     "replace": "gearshift",
-    "summary": "Int Eng: 'gear\\1\\2' --> 'gearshift'"
+    "summary": "Int Eng: 'gear\\1\\2' ⇒ 'gearshift'"
   },
   {
     "find": "grey(s|ed|ing|er)?",
     "replace": "gray\\1",
-    "summary": "Int Eng: 'grey\\1' --> 'gray\\1'"
+    "summary": "Int Eng: 'grey\\1' ⇒ 'gray\\1'"
   },
   {
     "find": "honour(abl[ey]|arys?|ifics?)",
     "replace": "honor\\1",
-    "summary": "Int Eng: 'honour\\1' --> 'honor\\1'"
+    "summary": "Int Eng: 'honour\\1' ⇒ 'honor\\1'"
   },
   {
     "find": "humour(ists?|ous[ly]?)",
     "replace": "humor\\1",
-    "summary": "Int Eng: 'humour\\1' --> 'humor\\1'"
+    "summary": "Int Eng: 'humour\\1' ⇒ 'humor\\1'"
   },
   {
     "find": "invigourat(e|ed|ing|es)",
     "replace": "invigorat\\1",
-    "summary": "Int Eng: 'invigourat\\1' --> 'invigorat\\1'"
+    "summary": "Int Eng: 'invigourat\\1' ⇒ 'invigorat\\1'"
   },
   {
     "find": "jewellery",
     "replace": "jewelry",
-    "summary": "Int Eng: 'jewellery' --> 'jewelry'"
+    "summary": "Int Eng: 'jewellery' ⇒ 'jewelry'"
   },
   {
     "find": "kerb(s)?",
     "replace": "curb\\1",
-    "summary": "Int Eng: 'kerb\\1' --> 'curb\\1'"
+    "summary": "Int Eng: 'kerb\\1' ⇒ 'curb\\1'"
   },
   {
     "find": "learnt",
     "replace": "learned",
-    "summary": "Int Eng: 'learnt' --> 'learned'"
+    "summary": "Int Eng: 'learnt' ⇒ 'learned'"
   },
   {
     "find": "leukaemia",
     "replace": "leukemia",
-    "summary": "Int Eng: 'leukaemia' --> 'leukemia'"
+    "summary": "Int Eng: 'leukaemia' ⇒ 'leukemia'"
   },
   {
     "find": "licenc(e|ed|ing|es)",
     "replace": "licens\\1",
-    "summary": "Int Eng: 'licenc\\1' --> 'licens\\1'"
+    "summary": "Int Eng: 'licenc\\1' ⇒ 'licens\\1'"
   },
   {
     "find": "maths",
     "replace": "math",
-    "summary": "Int Eng: 'maths' --> 'math'"
+    "summary": "Int Eng: 'maths' ⇒ 'math'"
   },
   {
     "find": "mediaeval",
     "replace": "medieval",
-    "summary": "Int Eng: 'mediaeval' --> 'medieval'"
+    "summary": "Int Eng: 'mediaeval' ⇒ 'medieval'"
   },
   {
     "find": "mobile phone(s)?",
     "replace": "cell phone\\1",
-    "summary": "Int Eng: 'mobile phone\\1' --> 'cell phone\\1'"
+    "summary": "Int Eng: 'mobile phone\\1' ⇒ 'cell phone\\1'"
   },
   {
     "find": "motorway(s)?",
     "replace": "freeway\\1",
-    "summary": "Int Eng: 'motorway\\1' --> 'freeway\\1'"
+    "summary": "Int Eng: 'motorway\\1' ⇒ 'freeway\\1'"
   },
   {
     "find": "mould(s|y)?",
     "replace": "mold\\1",
-    "summary": "Int Eng: 'mould\\1' --> 'mold\\1'"
+    "summary": "Int Eng: 'mould\\1' ⇒ 'mold\\1'"
   },
   {
     "find": "neighbour(s|ly)?",
     "replace": "neighbor\\1",
-    "summary": "Int Eng: 'neighbour\\1' --> 'neighbor\\1'"
+    "summary": "Int Eng: 'neighbour\\1' ⇒ 'neighbor\\1'"
   },
   {
     "find": "organisational(ly)?",
     "replace": "organizational\\1",
-    "summary": "Int Eng: 'organisational\\1' --> 'organizational\\1'"
+    "summary": "Int Eng: 'organisational\\1' ⇒ 'organizational\\1'"
   },
   {
     "find": "orientat(e|ed|es|ing)",
     "replace": "orient\\1",
-    "summary": "Int Eng: 'orientate\\1' --> 'orient\\1'"
+    "summary": "Int Eng: 'orientate\\1' ⇒ 'orient\\1'"
   },
   {
     "find": "petrol(s)?",
     "replace": "gasoline\\1",
-    "summary": "Int Eng: 'petrol\\1' --> 'gasoline\\1'"
+    "summary": "Int Eng: 'petrol\\1' ⇒ 'gasoline\\1'"
   },
   {
     "find": "plough(s|ing|ed)?",
     "replace": "plow\\1",
-    "summary": "Int Eng: 'plough\\1' --> 'plow\\1'"
+    "summary": "Int Eng: 'plough\\1' ⇒ 'plow\\1'"
   },
   {
     "find": "practis(e|ed|es|ing)",
     "replace": "practic\\1",
-    "summary": "Int Eng: 'practis\\1' --> 'practic\\1'"
+    "summary": "Int Eng: 'practis\\1' ⇒ 'practic\\1'"
   },
   {
     "find": "rigour(s|ous)?",
     "replace": "rigor\\1",
-    "summary": "Int Eng: 'rigour\\1' --> 'rigor\\1'"
+    "summary": "Int Eng: 'rigour\\1' ⇒ 'rigor\\1'"
   },
   {
     "find": "rubbish",
     "replace": "garbage",
-    "summary": "Int Eng: 'rubbish' --> 'garbage' (mainly for the colocations like can and tip)"
+    "summary": "Int Eng: 'rubbish' ⇒ 'garbage' (mainly for the colocations like can and tip)"
   },
   {
     "find": "savour(s|ies|y|ed|ing)?",
     "replace": "savor\\1",
-    "summary": "Int Eng: 'savour\\1' --> 'savor\\1'"
+    "summary": "Int Eng: 'savour\\1' ⇒ 'savor\\1'"
   },
   {
     "find": "smoulder(s)?",
     "replace": "smolder\\1",
-    "summary": "Int Eng: 'smoulder\\1' --> 'smolder\\1'"
+    "summary": "Int Eng: 'smoulder\\1' ⇒ 'smolder\\1'"
   },
   {
     "find": "sulphur(ated|ic|ous)?",
     "replace": "sulfur\\1",
-    "summary": "Int Eng: 'sulphur\\1' --> 'sulfur\\1'"
+    "summary": "Int Eng: 'sulphur\\1' ⇒ 'sulfur\\1'"
   },
   {
     "find": "whilst",
     "replace": "while",
-    "summary": "Int Eng: 'whilst' --> 'while'"
+    "summary": "Int Eng: 'whilst' ⇒ 'while'"
   },
   {
     "find": "whing(e|es|ed|ing|er(s)?)",
     "replace": "whin\\1",
-    "summary": "Int Eng: 'whing\\1' --> 'whin\\1'"
+    "summary": "Int Eng: 'whing\\1' ⇒ 'whin\\1'"
   },
   {
     "find": "windscreen(s)?",
     "replace": "windshield\\1",
-    "summary": "Int Eng: 'windscreen\\1' --> 'windshield\\1'"
+    "summary": "Int Eng: 'windscreen\\1' ⇒ 'windshield\\1'"
   }
 ]

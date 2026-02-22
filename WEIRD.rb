@@ -55,42 +55,14 @@
 #  {{Quotation line}} / {{Quote line}} — Inline Styling. Eg: Terraria.wiki.gg
 #  Quote=
 #
-# Dubious
-#   Show entire sentence containing the issue, not just the word. This gives more
-#   context to editors and makes it more likely they will understand the issue and fix it.
-#   Build a white list of site name / page name / dubious rule combinations that are ignored,
-#   to avoid repeatedly flagging the same false positives on the same pages. Editors can then
-#   remove false positives from the whitelist into the actual site whitelist and fix what remains.
 #
-# check for too many prepositions in a sentence, probable wordiness.
-#   about, above, across, after, against, along, amid, among, around, at, before, behind, below, beneath, beside, besides, between, beyond, by,
-#   concerning, considering, despite, down, during, except, for, from, in, inside, into, like, near, of, off, on, onto, opposite, out, outside,
-#   over, past, per, regarding, round, since, than, through, throughout, till, to, toward, towards, under, underneath, unlike, until, up, upon, via,
-#   with, within, without
-#
-#   according to, adjacent to, ahead of, along with, apart from, as for, as of, as per, as to, aside from, away from, because of, close to, due to,
-#   except for, far from, in addition to, in case of, in front of, in lieu of, in place of, in spite of, instead of, next to, on account of,
-#   on behalf of, on top of, out of, outside of, owing to, prior to, regardless of, subsequent to, together with, up to
-#
-#   as a result of, at the expense of, by means of, by virtue of, by way of, in accordance with, in back of, in comparison with, in contrast to,
-#   in keeping with, in light of, in order to, in place of, in reference to, in regard to, in relation to, in respect of, in terms of,
-#   in the event of, in the face of, in view of, on the basis of, on the part of, on the side of, with reference to, with regard to,
-#   with respect to, with the exception of
-#
-#   aboard, alongside, bar, cum, ere, minus, notwithstanding, opposite, past, plus, save, short of, times, versus, worth
 
-# Check for sentences with too many conjunctions, probable run-on sentences.
-# Check for long sentences and suggest shorter sentences, Maybe autofix at conjunctions.
-# Check for passive voice, maybe flag as dubious but not auto-fix as it can be tricky to rephrase without changing meaning.
-# Subject/verb agreement issues, maybe flag as dubious if we can't be sure of the correct verb form.
 # Title casing headings
-# Check for repeated words, e.g., "the the", "and and", etc.
 # Check for common homophone confusion, e.g., "there/their/they're", "your/you're", "its/it's", "affect/effect", etc.
 # Check for overuse of adverbs (words ending in -ly), which can indicate wordiness.
 # Check for overuse of "very", which can often be removed without changing meaning.
 # Check for "literally" used in a non-literal sense, which is a common pet peeve.
 # Check for "could of" instead of "could have", "should of" instead of "should have", etc.
-# Check for "alot" instead of "a lot".
 # Check for "irregardless" instead of "regardless".
 # Check for "then" vs "than" confusion.
 # Check for "loose" vs "lose" confusion.
@@ -313,7 +285,7 @@ def get_glossary_terms(wiki)
 
   # Extract all wiki tables {| ... |}
   # Tables contain rows separated by |-, cells separated by | or ||
-  tables = glossary_text.scan(/\{\|(.*?)\|\}/m)
+  tables = glossary_text.scan(/\{\|(.*?)\|}/m)
   status('glossary_tables_found', tables.length, false, :verbose)
 
   tables.each_with_index do |table_content, table_idx|
@@ -570,7 +542,7 @@ end
 # Ensure 1 cat / line and proper spacing. Ignores referenced categories [[:Category:Blah]].
 def categories_to_bottom(text)
   # Recursive regex for balanced {{template}} structures
-  template_pattern = /\{\{(?:[^{}]|\g<0>)*\}\}/
+  template_pattern = /\{\{(?:[^{}]|\g<0>)*}}/
 
   # 1. Collect only 'loose' categories (outside of templates)
   categories = []
@@ -610,35 +582,35 @@ def categories_to_bottom(text)
   "#{clean_text}\n\n#{category_block}\n"
 end
 
-# Load multiple rules files based on configuration
-rules_files = [
-  { name: 'typos.json', enabled: RULES_CONFIG[:typos], dubious: false },
-  { name: 'grammar.json', enabled: RULES_CONFIG[:grammar], dubious: false },
-  { name: 'prose_linting.json', enabled: RULES_CONFIG[:prose_linting], dubious: false },
-  { name: 'international_english.json', enabled: RULES_CONFIG[:international_english], dubious: false },
-  { name: 'mw_linting.json', enabled: RULES_CONFIG[:mw_linting], dubious: false },
-  { name: 'dubious.json', enabled: RULES_CONFIG[:dubious], dubious: true }
-]
-rules = []
-rules_files.each do |rules_file_config|
-  next unless rules_file_config[:enabled]
-
-  begin
-    file_rules = load_json(rules_file_config[:name])
-    # Mark each rule with its source file and whether it's from dubious
-    file_rules.each do |r|
-      r['_source'] = rules_file_config[:name]
-      r['_dubious'] = rules_file_config[:dubious]
-    end
-    rules.concat(file_rules)
-    status('rules_file_loaded', "#{rules_file_config[:name]}: #{file_rules.length} rules", false, :verbose)
-  rescue
-    status('rules_file_missing', rules_file_config[:name], false, :verbose)
-  end
+def rulefilename(name)
+  pre = 'rules\\'
+  ext = '.json'  
+  name = pre + name + ext
 end
 
-# Enforce word boundaries on all single-word rules
-rules = enforce_word_boundaries(rules)
+def load_rule_file(name)
+  pathname = rulefilename(name)  
+  if File.file?pathname then  
+    file=load_json(pathname) if RULES_CONFIG[:{name}]? # Argy - is the use of :{name} correct here?
+    status('rules_file_loaded', "#{rules_file_config[:name]}: #{file_rules.length} rules", false, :verbose)
+  else
+    status('rules_file_missing', pathname, false, ) # Argy - always log 
+  end
+  return file
+end
+
+def load_rules_files(rules)
+  status('Loading rules files', , true, :light) # argy - new indent level
+  rules.concat(load_rule_file('grammar'))
+  rules.concat(load_rule_file('idioms'))
+  rules.concat(load_rule_file('international_english'))
+  rules.concat(load_rule_file('latin'))
+  rules.concat(load_rule_file('mw_linting'))
+  rules.concat(load_rule_file('prose_linting'))
+  rules.concat(load_rule_file('typos'))
+  status('All rules files loaded. Total rules: ',rules.length, true, :light) # argy - close this indent level
+  rules = enforce_word_boundaries(rules)
+end
 
 report = {}
 report_name = "WEIRD report #{Time.now.strftime('%Y%m%d_%H%M%S')}.txt"
@@ -646,7 +618,6 @@ report_name = "WEIRD report #{Time.now.strftime('%Y%m%d_%H%M%S')}.txt"
 status('INITIALIZATION', nil, true, :light)
 status('simulation_mode', SIMULATE, false, :verbose)
 status('sites_loaded', sites.length, false, :light)
-status('rules_loaded', rules.length, false, :light)
 status('rules_disabled', RULES_CONFIG.reject { |_, v| v }.keys.join(', '), false, :verbose) if RULES_CONFIG.any? { |_, v| !v }
 
 puts "\nStarting Wiki Trawl... #{SIMULATE ? '[SIMULATION]' : '[LIVE]'}"
@@ -768,33 +739,32 @@ sites.each do |site_cfg|
         # Replace %1 and %2 in summary template
         # Note: If multiple matches exist, we use the first one for the summary
         summary = rule['summary'].gsub('%1', matches.first.to_s).gsub('%2', rule['replace'])
-        # Mark dubious changes with a prefix
-        summary = "[DUBIOUS] #{summary}" if rule['_dubious']
         applied_summaries << summary
       end
 
+      # TO DO
+      # All other page processing logics
+      # 
       next if current_text == original_text
 
-      # Separate dubious from non-dubious changes
-      # rubocop:disable Lint/UselessAssignment
-      dubious_summaries = applied_summaries.select { |s| s.start_with?('[DUBIOUS]') }
-      # rubocop:enable Lint/UselessAssignment
       non_dubious_summaries = applied_summaries.reject { |s| s.start_with?('[DUBIOUS]') }
 
       report[site_name][title] = applied_summaries
       status('rules_applied', applied_summaries.length, false, :verbose)
 
       # Only write if there are non-dubious changes, or if in simulate mode
-      if non_dubious_summaries.empty? && !SIMULATE
-        # Only dubious changes, don't write to wiki
-        status('dubious_only', title, false, :verbose)
-        puts "    ◁ Dubious only (not saved): #{title}"
+      if applied_summaries.empty? && !SIMULATE
+        status('No changes to apply', title, false, :verbose)
+        puts "    ◁ No changes to apply: #{title}"
       elsif SIMULATE
         puts "    ◇ Simulated: #{title}"
+        # write the content to a copyedits_<sitename>.txt file
       else
-        wiki.edit(title, current_text, summary: non_dubious_summaries.join('; '), minor: true)
+        wiki.edit(title, current_text, summary:applied_summaries.join('; '), minor: true)
         puts "    ✓ Saved: #{title}"
+        # append all dubious to the copyedits file (see above).  
       end
+      # for memory minimization we should null sites after we write their stuff
     end
   end
 end
@@ -802,7 +772,7 @@ end
 # =========================================================
 # ---               Report Generation                   ---
 # =========================================================
-
+# this is probably shit. given the simulate logic above. if we want to see wiki changes, they have a recent changes list
 status('REPORT_GENERATION', nil, true, :light)
 status('report_file', report_name, false, :light)
 total_pages_changed = report.values.sum(&:length)
