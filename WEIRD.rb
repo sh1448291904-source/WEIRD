@@ -55,29 +55,14 @@
 #  {{Quotation line}} / {{Quote line}} — Inline Styling. Eg: Terraria.wiki.gg
 #  Quote=
 #
-# Dubious
-#   Show entire sentence containing the issue, not just the word. This gives more
-#   context to editors and makes it more likely they will understand the issue and fix it.
-#   Build a white list of site name / page name / dubious rule combinations that are ignored,
-#   to avoid repeatedly flagging the same false positives on the same pages. Editors can then
-#   remove false positives from the whitelist into the actual site whitelist and fix what remains.
 #
-# Check for sentences with too many conjunctions as probable run-on sentences.
-# for, and, nor, but, or, yet, so, commas, semicolons, whether, if, then, as, than, after, as long as,
-# as soon as, by the time, long before, now that, once, since, till, until, when, whenever, while
-# although, as far as, as if, as long as, as though, because, before, even if, even though, every time,
-# in order that, so that, that, though, unless, where, whereas, wherever
-# Check for long sentences and suggest shorter sentences, Maybe autofix at conjunctions.
-# Check for passive voice, maybe flag as dubious but not auto-fix as it can be tricky to rephrase without changing meaning.
-# Subject/verb agreement issues, maybe flag as dubious if we can't be sure of the correct verb form.
+
 # Title casing headings
-# Check for repeated words, e.g., "the the", "and and", etc.
 # Check for common homophone confusion, e.g., "there/their/they're", "your/you're", "its/it's", "affect/effect", etc.
 # Check for overuse of adverbs (words ending in -ly), which can indicate wordiness.
 # Check for overuse of "very", which can often be removed without changing meaning.
 # Check for "literally" used in a non-literal sense, which is a common pet peeve.
 # Check for "could of" instead of "could have", "should of" instead of "should have", etc.
-# Check for "alot" instead of "a lot".
 # Check for "irregardless" instead of "regardless".
 # Check for "then" vs "than" confusion.
 # Check for "loose" vs "lose" confusion.
@@ -597,35 +582,35 @@ def categories_to_bottom(text)
   "#{clean_text}\n\n#{category_block}\n"
 end
 
-# Load multiple rules files based on configuration
-rules_files = [
-  { name: 'typos.json', enabled: RULES_CONFIG[:typos], dubious: false },
-  { name: 'grammar.json', enabled: RULES_CONFIG[:grammar], dubious: false },
-  { name: 'prose_linting.json', enabled: RULES_CONFIG[:prose_linting], dubious: false },
-  { name: 'international_english.json', enabled: RULES_CONFIG[:international_english], dubious: false },
-  { name: 'mw_linting.json', enabled: RULES_CONFIG[:mw_linting], dubious: false },
-  { name: 'dubious.json', enabled: RULES_CONFIG[:dubious], dubious: true }
-]
-rules = []
-rules_files.each do |rules_file_config|
-  next unless rules_file_config[:enabled]
-
-  begin
-    file_rules = load_json(rules_file_config[:name])
-    # Mark each rule with its source file and whether it's from dubious
-    file_rules.each do |r|
-      r['_source'] = rules_file_config[:name]
-      r['_dubious'] = rules_file_config[:dubious]
-    end
-    rules.concat(file_rules)
-    status('rules_file_loaded', "#{rules_file_config[:name]}: #{file_rules.length} rules", false, :verbose)
-  rescue
-    status('rules_file_missing', rules_file_config[:name], false, :verbose)
-  end
+def rulefilename(name)
+  pre = 'rules\\'
+  ext = '.json'  
+  name = pre + name + ext
 end
 
-# Enforce word boundaries on all single-word rules
-rules = enforce_word_boundaries(rules)
+def load_rule_file(name)
+  pathname = rulefilename(name)  
+  if File.file?pathname then  
+    file=load_json(pathname) if RULES_CONFIG[:{name}]? # Argy - is the use of :{name} correct here?
+    status('rules_file_loaded', "#{rules_file_config[:name]}: #{file_rules.length} rules", false, :verbose)
+  else
+    status('rules_file_missing', pathname, false, ) # Argy - always log 
+  end
+  return file
+end
+
+def load_rules_files(rules)
+  status('Loading rules files', , true, :light) # argy - new indent level
+  rules.concat(load_rule_file('grammar'))
+  rules.concat(load_rule_file('idioms'))
+  rules.concat(load_rule_file('international_english'))
+  rules.concat(load_rule_file('latin'))
+  rules.concat(load_rule_file('mw_linting'))
+  rules.concat(load_rule_file('prose_linting'))
+  rules.concat(load_rule_file('typos'))
+  status('All rules files loaded. Total rules: ',rules.length, true, :light) # argy - close this indent level
+  rules = enforce_word_boundaries(rules)
+end
 
 report = {}
 report_name = "WEIRD report #{Time.now.strftime('%Y%m%d_%H%M%S')}.txt"
@@ -633,7 +618,6 @@ report_name = "WEIRD report #{Time.now.strftime('%Y%m%d_%H%M%S')}.txt"
 status('INITIALIZATION', nil, true, :light)
 status('simulation_mode', SIMULATE, false, :verbose)
 status('sites_loaded', sites.length, false, :light)
-status('rules_loaded', rules.length, false, :light)
 status('rules_disabled', RULES_CONFIG.reject { |_, v| v }.keys.join(', '), false, :verbose) if RULES_CONFIG.any? { |_, v| !v }
 
 puts "\nStarting Wiki Trawl... #{SIMULATE ? '[SIMULATION]' : '[LIVE]'}"
@@ -755,33 +739,32 @@ sites.each do |site_cfg|
         # Replace %1 and %2 in summary template
         # Note: If multiple matches exist, we use the first one for the summary
         summary = rule['summary'].gsub('%1', matches.first.to_s).gsub('%2', rule['replace'])
-        # Mark dubious changes with a prefix
-        summary = "[DUBIOUS] #{summary}" if rule['_dubious']
         applied_summaries << summary
       end
 
+      # TO DO
+      # All other page processing logics
+      # 
       next if current_text == original_text
 
-      # Separate dubious from non-dubious changes
-      # rubocop:disable Lint/UselessAssignment
-      dubious_summaries = applied_summaries.select { |s| s.start_with?('[DUBIOUS]') }
-      # rubocop:enable Lint/UselessAssignment
       non_dubious_summaries = applied_summaries.reject { |s| s.start_with?('[DUBIOUS]') }
 
       report[site_name][title] = applied_summaries
       status('rules_applied', applied_summaries.length, false, :verbose)
 
       # Only write if there are non-dubious changes, or if in simulate mode
-      if non_dubious_summaries.empty? && !SIMULATE
-        # Only dubious changes, don't write to wiki
-        status('dubious_only', title, false, :verbose)
-        puts "    ◁ Dubious only (not saved): #{title}"
+      if applied_summaries.empty? && !SIMULATE
+        status('No changes to apply', title, false, :verbose)
+        puts "    ◁ No changes to apply: #{title}"
       elsif SIMULATE
         puts "    ◇ Simulated: #{title}"
+        # write the content to a copyedits_<sitename>.txt file
       else
-        wiki.edit(title, current_text, summary: non_dubious_summaries.join('; '), minor: true)
+        wiki.edit(title, current_text, summary:applied_summaries.join('; '), minor: true)
         puts "    ✓ Saved: #{title}"
+        # append all dubious to the copyedits file (see above).  
       end
+      # for memory minimization we should null sites after we write their stuff
     end
   end
 end
@@ -789,7 +772,7 @@ end
 # =========================================================
 # ---               Report Generation                   ---
 # =========================================================
-
+# this is probably shit. given the simulate logic above. if we want to see wiki changes, they have a recent changes list
 status('REPORT_GENERATION', nil, true, :light)
 status('report_file', report_name, false, :light)
 total_pages_changed = report.values.sum(&:length)
