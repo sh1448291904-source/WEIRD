@@ -50,6 +50,11 @@
     "summary": "Verbosity: recast with 'by using', ideally with a stronger verb than using."
   },
   {
+    "find": "in the face of",
+    "replace": "despite",
+    "summary": "Verbosity: replace when possible with despite."
+  },
+  {
     "find": "cold feet",
     "replace": "lose commitment",
     "summary": "Probable idiom: recast with 'to lose commitment'."

@@ -62,21 +62,11 @@
 #   to avoid repeatedly flagging the same false positives on the same pages. Editors can then
 #   remove false positives from the whitelist into the actual site whitelist and fix what remains.
 #
-# check for too many prepositions in a sentence, probable wordiness.
-
-#
-#   according to, adjacent to, along with, apart from, as for, as of, as per, as to, aside from, away from, because of, close to, due to,
-#   except for, far from, in addition to, in case of, in front of, in lieu of, in place of, in spite of, instead of, next to, on account of,
-#   on behalf of, on top of, out of, outside of, owing to, prior to, regardless of, subsequent to, together with, up to
-#
-#   at the expense of, by way of, in accordance with, in [the ]?back of,
-#   in light of, in order to, in place of, in reference to, in regard to, in relation to, in respect of, in terms of,
-#   in the event of, in the face of, in view of, on the basis of, on the part of, on the side of, with reference to, with regard to,
-#   with respect to, with the exception of
-#
-#   aboard, alongside, bar, cum, ere, minus, notwithstanding, opposite, past, plus, save, short of, times, versus, worth
-
-# Check for sentences with too many conjunctions, probable run-on sentences.
+# Check for sentences with too many conjunctions as probable run-on sentences.
+# for, and, nor, but, or, yet, so, commas, semicolons, whether, if, then, as, than, after, as long as,
+# as soon as, by the time, long before, now that, once, since, till, until, when, whenever, while
+# although, as far as, as if, as long as, as though, because, before, even if, even though, every time,
+# in order that, so that, that, though, unless, where, whereas, wherever
 # Check for long sentences and suggest shorter sentences, Maybe autofix at conjunctions.
 # Check for passive voice, maybe flag as dubious but not auto-fix as it can be tricky to rephrase without changing meaning.
 # Subject/verb agreement issues, maybe flag as dubious if we can't be sure of the correct verb form.

@@ -5,14 +5,49 @@
     "summary": "Contraction: its ⇒ it's"
   },
   {
+    "find": "(in/with) ((reference|regards?|relation|respect|terms) (to|of)",
+    "replace": "regarding",
+    "summary": "Verbosity: \\1 \\2 \\3 ⇒ regarding"
+  },
+  {
+    "find": "on the basis of",
+    "replace": "based on",
+    "summary": "Verbosity: on the basis of ⇒ based on"
+  },
+  {
+    "find": "with the exception of",
+    "replace": "excluding",
+    "summary": "Verbosity: with the exception of ⇒ excluding"
+  },
+  {
+    "find": "in view of",
+    "replace": "because of",
+    "summary": "Verbosity: in view of ⇒ because of"
+  },
+  {
+    "find": "in place of",
+    "replace": "instead of",
+    "summary": "Idiom: in place of ⇒ instead of"
+  },
+  {
+    "find": "in light of",
+    "replace": "considering",
+    "summary": "Idiom: in light of ⇒ considering"
+  },
+  {
     "find": "in order to",
     "replace": "to",
     "summary": "Verbosity: in order to ⇒ to"
   },
   {
-    "find": "as a result of",
+    "find": "subsequent to",
+    "replace": "since",
+    "summary": "Verbosity: subsequent to ⇒ since"
+  },
+  {
+    "find": "(as a result of|owing to)",
     "replace": "due to",
-    "summary": "Verbosity: as a result of ⇒ due to"
+    "summary": "Verbosity: \\1 ⇒ due to"
   },
   {
     "find": "by virtue of",
@@ -93,6 +128,11 @@
     "find": "at the drop of a hat",
     "replace": "instantly",
     "summary": "Idiom: at the drop of a hat ⇒ instantly"
+  },
+  {
+    "find": "prior to",
+    "replace": "before",
+    "summary": "Verbosity: prior to ⇒ before"
   },
   {
     "find": "go back to the drawing board",
