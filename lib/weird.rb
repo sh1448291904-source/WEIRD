@@ -41,9 +41,9 @@ module Weird
   end
 
   def load_rule_file(name)
-    exit unless RULES_CONFIG[name]? #ARGY: trailing '?' ?  
+    exit unless RULES_CONFIG[name]  
     pathname = rulefilename(name)  
-    if File.file?pathname then  
+    if File.file(pathname) then
       file=load_json(pathname)  
       status('Rules_file_loaded', "#{rules_file_config[:name]}: #{file_rules.length} rules", false, :verbose)
     else
