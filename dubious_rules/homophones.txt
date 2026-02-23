@@ -1,0 +1,17 @@
+(weather|wether|whether)
+the(y're|ir|re)
+you('re|r|rs)
+it('s|s)
+(to|two|too)
+(buy|bye)
+(ae)ffect
+station(ae)ry
+compl(ie)ment
+br(ake|eak)
+co(au)rse
+he(re|ar)
+p(ea|ie)ce
+w?hole
+sta(re|ir)
+(know|no)
+(raise|rays|rase|raze|rehs|reis|réis|res)

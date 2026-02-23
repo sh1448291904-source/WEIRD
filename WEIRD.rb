@@ -42,26 +42,18 @@
 # Allow site-based rules files to have entries with function names to run.
 #   This allows other sites to implement atomic Timberborn-specific functionality as required.
 #
-# Before running on Timberborn
-# All quotes pages to have {{nobots}} as they have a lot of non-standard text that this bot will want to correct.
-#
-# Exclude all quote areas.
-#  {{Quote}}, <blockquote>...</blockquote>, {{Quotation}}, {{Quote box}}, {{Dialogue}}
+# Exclude all:
+#  <blockquote>...</blockquote> 
 #  :'''Character1:''' Line of dialogue.
 #  :'''Character2:''' Response.
 #  Used on "Quotes" subpages (e.g., CharacterName/Quotes). Each line is a bullet point,
 #  grouped under headings by context (intro, win, loss, etc.)
 #  Quote as a heading with bullets underneath.
-#  {{Quotation line}} / {{Quote line}} — Inline Styling. Eg: Terraria.wiki.gg
 #  Quote=
 #
 #
 
-# Title casing headings
-# Check for common homophone confusion, e.g., "there/their/they're", "your/you're", "its/it's", "affect/effect", etc.
-# Check for overuse of adverbs (words ending in -ly), which can indicate wordiness.
-# Check for overuse of "very", which can often be removed without changing meaning.
-# Check for "literally" used in a non-literal sense, which is a common pet peeve.
+# Title casing or sentence casing for headings
 # Check for "could of" instead of "could have", "should of" instead of "should have", etc.
 # Check for "irregardless" instead of "regardless".
 # Check for "then" vs "than" confusion.
@@ -91,14 +83,14 @@
 # Check for "quiet" vs "quite" confusion.
 # Check for "respectfully" vs "respectively" confusion.
 # Check for "stationary" vs "stationery" confusion.
-# Check for "their/there/they're", "your/you're", "its/it's", etc. confusion.
 # Check for "a" vs "an" confusion.
 # Check for "and/or" usage, which can often be simplified to just "or".
-# Check for "etc." used in a non-list context, which can often be removed or replaced with "and so on".
 
 require 'mediawiki/butt'
 require 'json'
 require 'time'
+require 'lib/weird/dubious.rb' # ARGY - right?
+require 'lib/weird/WEIRD.rb'
 
 # Command line arguments
 SIMULATE = ARGV.include?('--simulate')
@@ -129,6 +121,8 @@ RULES_CONFIG = {
 }.freeze
 
 # Status tracking and reporting
+# TODO:
+# ARGY: Always log any status messages as well as them going to STDOUT with a timestamp 
 $status_indent = 0
 def status(var_name, value, is_section = false, level = :verbose)
   return unless log?(level)
@@ -419,8 +413,6 @@ def apply_glossary_tags(text, glossary_terms)
   text
 end
 
-sites = load_json('sites.json')
-
 # Helper function to apply word boundaries to simple words
 # Returns escaped pattern string with word boundaries if text is a simple word
 def word_boundary_pattern(text)
@@ -612,6 +604,8 @@ def load_rules_files(rules)
   rules = enforce_word_boundaries(rules)
 end
 
+sites = load_json('sites.json')
+
 report = {}
 report_name = "WEIRD report #{Time.now.strftime('%Y%m%d_%H%M%S')}.txt"
 
@@ -634,7 +628,7 @@ sites.each do |site_cfg|
 
   creds = load_json(site_cfg['credentials'])
   bot_user = creds['username'].split('@').first # Get the base username
-  status('authenticated_user', bot_user, false, :verbose)
+  status('authenticated_user', bot_user, false, :verbose) 
   wiki.login(creds['username'], creds['password'])
 
   # Load glossary terms for this site (only if glossary is enabled)
