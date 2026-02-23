@@ -643,9 +643,16 @@ status('Sites loaded: ', sites.length, false, :light)
 status('rules_disabled', RULES_CONFIG.reject { |_, v| v }.keys.join(', '), false, :verbose) if RULES_CONFIG.any? { |_, v| !v }
 
 puts "\nStarting Wiki Trawl... #{SIMULATE ? '[SIMULATION]' : '[LIVE]'}"
+runtime=Time.local-start_time
+status('Initialization completed. Seconds:', runtime)
 
 sites.each do |site_cfg|
-   process_site(site.cfg)
+  site_started=Time.local
+  status('Starting ',site_cfg[Name],true)
+  process_site(site.cfg)
+
+  runtime=Time.local-site_started
+  status("Finished #{site_cfg[Name]}. It took ", runtime.strftime(%H%M%S)) # ARGY: Need to pass indent-1 to logger somehow
 end
 
 # =========================================================
@@ -654,5 +661,5 @@ end
 # TODO: Accumulated stats
 # status('total_pages_changed', total_pages_changed, false, :light)
 
-runtime=time.local-start_time
+runtime=Time.local-start_time
 status ("Exiting. Runtime: ",runtime.strftime(%H%M%S))
