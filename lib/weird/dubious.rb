@@ -41,22 +41,33 @@ module dubious
 #   Check for repeated words, e.g., "the the", "and and", etc.
 
 # Dubious
-#   use sentence checking to show entire sentence for context
-#   long sentences and suggest shorter sentences. Far future: autofix at conjunctions.
-#   Show entire sentence containing the issue for the rules check, not just the word. This gives more
-#   context to editors and makes it more likely they will understand the issue and fix it.
-#   Build a white list of site name / page name / dubious rule combinations that are ignored,
-#   to avoid repeatedly flagging the same false positives on the same pages. Editors can then
-#   remove false positives from the whitelist into the actual site whitelist and fix what remains.
-#   Check for passive voice, tricky to rephrase without changing meaning.
-#   Subject/verb agreement issues, maybe flag as dubious if we can't be sure of the correct verb form.
-#     Find a word form identifier solution. Eg: Is this word a verb, a noun...
-#     Check for overuse of adverbs (words ending in -ly), which can indicate wordiness.
+# use sentence checking to show entire sentence for context
+# long sentences and suggest shorter sentences. Far future: autofix at conjunctions.
+# Show entire sentence containing the issue for the rules check, not just the word. This gives more
+# context to editors and makes it more likely they will understand the issue and fix it.
+# Build a white list of site name / page name / dubious rule combinations that are ignored,
+# to avoid repeatedly flagging the same false positives on the same pages. Editors can then
+# remove false positives from the whitelist into the actual site whitelist and fix what remains.
+# Check for passive voice, tricky to rephrase without changing meaning.
+# Subject/verb agreement issues, maybe flag as dubious if we can't be sure of the correct verb form.
+# Find a word form identifier solution. Eg: Is this word a verb, a noun...
+# Check for overuse of adverbs (words ending in -ly), which can indicate wordiness.
+# Check for "imply" vs "infer" confusion.
+# Check for "jewel" vs "joule" confusion.
+# Check for "kernel" vs "colonel" confusion.
+# Check for "lightening" vs "lightning" confusion.
+# Check for "marital" vs "martial" confusion.
+# Check for "naval" vs "navel" confusion.
+# Check for "opportunity" misspelled as "oppertunity".
+# Check for "play" vs "plea" confusion.
+# Check for "quiet" vs "quite" confusion.
+# Check for "respectfully" vs "respectively" confusion.
+# Check for "stationary" vs "stationery" confusion.
+# Check for "a" vs "an" confusion.
+# Check for "and/or" usage, which can often be simplified to just "or".
 
 
-
-
-# We pass the entire site here and process pages, as this stuff is very different from the rules checking
+# We pass the page
   # All dubious logic needs to:
   #   first check the sentence against whitelisted sentences for that site (no whitelist is ok, continue no error)
   #   output goes into sites><site>-copyedits (delete it if it exists at run start), with page names as section headings, and contains:    

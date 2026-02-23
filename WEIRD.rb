@@ -30,7 +30,6 @@
 #   ruby WEIRD.rb --simulate --no-typos --no-grammar
 #   ruby WEIRD.rb --no-prose-linting
 #   ruby WEIRD.rb --no-glossary
-#   ruby WEIRD.rb --test
 # TO DO
 # <ol> lists
 # Template calls:
@@ -50,33 +49,19 @@
 #  grouped under headings by context (intro, win, loss, etc.)
 #  Quote as a heading with bullets underneath.
 #  Quote=
-#
-#
-
 # Title casing or sentence casing for headings
-# Check for "imply" vs "infer" confusion.
-# Check for "jewel" vs "joule" confusion.
-# Check for "kernel" vs "colonel" confusion.
-# Check for "lightening" vs "lightning" confusion.
-# Check for "marital" vs "martial" confusion.
-# Check for "naval" vs "navel" confusion.
-# Check for "opportunity" misspelled as "oppertunity".
-# Check for "play" vs "plea" confusion.
-# Check for "quiet" vs "quite" confusion.
-# Check for "respectfully" vs "respectively" confusion.
-# Check for "stationary" vs "stationery" confusion.
-# Check for "a" vs "an" confusion.
-# Check for "and/or" usage, which can often be simplified to just "or".
 
 require 'mediawiki/butt'
 require 'json'
 require 'time'
-require 'lib/weird/dubious.rb' # ARGY - right?
-require 'lib/weird/WEIRD.rb'
+require 'lib/weird.rb'
+require 'lib/WEIRD/dubious.rb' # ARGY - right?
+require 'lib/WEIRD/logging.rb'
 
 # Command line arguments
 SIMULATE = ARGV.include?('--simulate')
-TEST = ARGV.include?('--test')
+$status_indent = 0
+
 
 # Parse logging level: none (default), light, or verbose
 log_level_arg = ARGV.find { |arg| arg.start_with?('--log-level=') }
@@ -102,52 +87,6 @@ RULES_CONFIG = {
   glossary: !ARGV.include?('--no-glossary')
 }.freeze
 
-# Status tracking and reporting
-# TODO:
-# ARGY: Always log any status messages as well as them going to STDOUT with a timestamp 
-$status_indent = 0
-def status(var_name, value, is_section = false, level = :verbose)
-  return unless log?(level)
-
-  if is_section
-    puts "\n>>> #{var_name}"
-    $status_indent = 1
-  else
-    indent = '  ' * $status_indent
-    puts "#{indent}> #{var_name}: #{value.inspect}"
-  end
-end
-
-# Helper to determine if a message should be logged based on the current LOG_LEVEL
-def log?(level)
-  case LOG_LEVEL
-  when :none
-    false
-  when :light
-    %i[light all].include?(level)
-  when :verbose
-    true
-  end
-end
-
-# Helper to load JSON files with error handling
-def load_json(file)
-  JSON.parse(File.read(file))
-rescue => e
-  puts "Error loading #{file}: #{e.message}"
-  exit
-end
-
-# Helper to check for bot exclusion templates or __NOEDITSECTION__ on any page
-def should_edit?(text, bot_name)
-  # Standard MediaWiki bot exclusion patterns
-  return false if text.include?('{{nobots}}')
-  return false if text.match?(/\{\{bots\s*\|\s*deny\s*=\s*(all|#{Regexp.escape(bot_name)})\s*\}\}/i)
-  return false if text.include?('{{donotbot}}')
-  return false if text.include?('__NOEDITSECTION__')
-
-  true
-end
 
 # Check page text for plain page names or explicit links and convert to
 # either [[PageName]] or {{icon|PageName}} when appropriate.
@@ -556,51 +495,10 @@ def categories_to_bottom(text)
   "#{clean_text}\n\n#{category_block}\n"
 end
 
-def rulefilename(name)
-  pre = 'rules\\'
-  ext = '.json'  
-  name = pre + name + ext
-end
 
-def load_rule_file(name)
-  pathname = rulefilename(name)  
-  if File.file?pathname then  
-    file=load_json(pathname) if RULES_CONFIG[:{name}]? # Argy - is the use of :{name} correct here?
-    status('rules_file_loaded', "#{rules_file_config[:name]}: #{file_rules.length} rules", false, :verbose)
-  else
-    status('rules_file_missing', pathname, false, ) # Argy - always log 
-  end
-  return file
-end
-
-def load_rules_files(rules)
-  status('Loading rules files', , true, :light) # argy - new indent level
-  rules.concat(load_rule_file('grammar'))
-  rules.concat(load_rule_file('idioms'))
-  rules.concat(load_rule_file('international_english'))
-  rules.concat(load_rule_file('latin'))
-  rules.concat(load_rule_file('mw_linting'))
-  rules.concat(load_rule_file('prose_linting'))
-  rules.concat(load_rule_file('typos')) # TO DO after loading make summary Typo: find => replace and we can kill the summary in file
-  status('All rules files loaded. Total rules: ',rules.length, true, :light) # argy - close this indent level
-  rules = enforce_word_boundaries(rules)
-end
-
-sites = load_json('sites.json')
-
-report = {}
-report_name = "WEIRD report #{Time.now.strftime('%Y%m%d_%H%M%S')}.txt"
-
-status('INITIALIZATION', nil, true, :light)
-status('simulation_mode', SIMULATE, false, :verbose)
-status('sites_loaded', sites.length, false, :light)
-status('rules_disabled', RULES_CONFIG.reject { |_, v| v }.keys.join(', '), false, :verbose) if RULES_CONFIG.any? { |_, v| !v }
-
-puts "\nStarting Wiki Trawl... #{SIMULATE ? '[SIMULATION]' : '[LIVE]'}"
-
-sites.each do |site_cfg|
+def process_site(site_cfg)
   site_name = site_cfg['name']
-  report[site_name] = {}
+  report[site_name] = {} #TO DOL we dont need to keep reports for each site, we write them, close them, start a new one. IS THIS EVEN USED?
 
   status('PROCESSING_SITE', site_name, true, :light)
 
@@ -616,20 +514,9 @@ sites.each do |site_cfg|
   # Load glossary terms for this site (only if glossary is enabled)
   glossary_terms = RULES_CONFIG[:glossary] ? get_glossary_terms(wiki) : {}
 
-  # Build list of main-namespace pages and map of available icon files
-  pages_main = wiki.get_all_pages(namespace: 0)
-  status('main_pages_count', pages_main.length, false, :light)
-  icon_map = {}
-  pages_main.each do |p|
-    file_title = "File:#{p} icon.png"
-    begin
-      file_text = wiki.get_text(file_title)
-    rescue
-      file_text = nil
-    end
-    icon_map[p] = true unless file_text.nil?
-  end
-  status('icons_found', icon_map.keys.length, false, :light)
+  # TODO: use all main namespaces nominated in config
+  map_wiki(wiki, namespaces, pages_main, icon_map)
+
 
   site_cfg['namespaces'].each do |ns|
     status('namespace', ns, false, :verbose)
@@ -723,8 +610,6 @@ sites.each do |site_cfg|
       # 
       next if current_text == original_text
 
-      non_dubious_summaries = applied_summaries.reject { |s| s.start_with?('[DUBIOUS]') }
-
       report[site_name][title] = applied_summaries
       status('rules_applied', applied_summaries.length, false, :verbose)
 
@@ -745,76 +630,29 @@ sites.each do |site_cfg|
   end
 end
 
+
+
+start_time=Time.local
+status("Dependencies loaded "), start_time.strftime('%Y%m%d_%H%M%S', true, :light)
+status('simulation_mode', SIMULATE, false, :verbose)
+
+sites = load_json('sites.json')
+status('Sites loaded: ', sites.length, false, :light)
+
+# TODO: Load all the old ARGV from a <sitename>_config.json
+status('rules_disabled', RULES_CONFIG.reject { |_, v| v }.keys.join(', '), false, :verbose) if RULES_CONFIG.any? { |_, v| !v }
+
+puts "\nStarting Wiki Trawl... #{SIMULATE ? '[SIMULATION]' : '[LIVE]'}"
+
+sites.each do |site_cfg|
+   process_site(site.cfg)
+end
+
 # =========================================================
 # ---               Report Generation                   ---
 # =========================================================
-# this is probably shit. given the simulate logic above. if we want to see wiki changes, they have a recent changes list
-status('REPORT_GENERATION', nil, true, :light)
-status('report_file', report_name, false, :light)
-total_pages_changed = report.values.sum(&:length)
-status('total_pages_changed', total_pages_changed, false, :light)
+# TODO: Accumulated stats
+# status('total_pages_changed', total_pages_changed, false, :light)
 
-begin
-  File.open(report_name, 'w') do |f|
-    f.puts "WIKI EDIT REPORT - #{Time.now}"
-    f.puts "RUN MODE: #{SIMULATE ? 'SIMULATION' : 'LIVE'}"
-    f.puts '=' * 50
-
-    report.each do |site, pages|
-      f.puts "\n>>> SITE: #{site}"
-      if pages.empty?
-        f.puts '    No changes made.'
-      else
-        pages.each do |title, summaries|
-          f.puts "    PAGE: #{title}"
-          summaries.each { |s| f.puts "      - #{s}" }
-        end
-      end
-    end
-  end
-  puts "\nDone! Report written to #{report_name}"
-rescue => e
-  status('report_write_error', e.message, false, :light)
-  warn "Error writing report #{report_name}: #{e.message}"
-  # Attempt fallback: write a minimal report to a fallback file
-  fallback = "#{report_name}.fallback.txt"
-  begin
-    File.open(fallback, 'w') do |f2|
-      f2.puts "WIKI EDIT REPORT (FALLBACK) - #{Time.now}"
-      f2.puts "Original write failed: #{e.message}"
-      f2.puts '=' * 50
-      report.each do |site, pages|
-        f2.puts "\n>>> SITE: #{site}"
-        if pages.empty?
-          f2.puts '    No changes made.'
-        else
-          pages.each do |title, summaries|
-            f2.puts "    PAGE: #{title}"
-            summaries.each { |s| f2.puts "      - #{s}" }
-          end
-        end
-      end
-    end
-    puts "Fallback report written to #{fallback}"
-  rescue => e2
-    status('report_fallback_error', e2.message, false, :light)
-    warn "Fallback report write failed: #{e2.message}"
-    # Final attempt: stream the report to STDOUT so the user can capture it
-    puts "\nFALLBACK FAILED - STREAMING REPORT TO STDOUT\n"
-    puts "WIKI EDIT REPORT (STREAMED) - #{Time.now}"
-    puts "Original write failed: #{e.message}"
-    puts "Fallback write failed: #{e2.message}"
-    puts '=' * 50
-    report.each do |site, pages|
-      puts "\n>>> SITE: #{site}"
-      if pages.empty?
-        puts '    No changes made.'
-      else
-        pages.each do |title, summaries|
-          puts "    PAGE: #{title}"
-          summaries.each { |s| puts "      - #{s}" }
-        end
-      end
-    end
-  end
-end
+runtime=time.local-start_time
+status ("Exiting. Runtime: ",runtime.strftime(%H%M%S))
