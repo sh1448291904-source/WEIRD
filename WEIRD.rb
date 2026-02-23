@@ -54,24 +54,6 @@
 #
 
 # Title casing or sentence casing for headings
-# Check for "could of" instead of "could have", "should of" instead of "should have", etc.
-# Check for "irregardless" instead of "regardless".
-# Check for "then" vs "than" confusion.
-# Check for "loose" vs "lose" confusion.
-# Check for "accept" vs "except" confusion.
-# Check for "affect" vs "effect" confusion.
-# Check for "complement" vs "compliment" confusion.
-# Check for "principal" vs "principle" confusion.
-# Check for "stationary" vs "stationery" confusion.
-# Check for "advice" vs "advise" confusion.
-# Check for "allusion" vs "illusion" confusion.
-# Check for "canvas" vs "canvass" confusion.
-# Check for "council" vs "counsel" confusion.
-# Check for "desert" vs "dessert" confusion.
-# Check for "eminent" vs "imminent" confusion.
-# Check for "farther" vs "further" confusion.
-# Check for "gauge" vs "guage" misspelling.
-# Check for "horde" vs "hoard" confusion.
 # Check for "imply" vs "infer" confusion.
 # Check for "jewel" vs "joule" confusion.
 # Check for "kernel" vs "colonel" confusion.
@@ -599,7 +581,7 @@ def load_rules_files(rules)
   rules.concat(load_rule_file('latin'))
   rules.concat(load_rule_file('mw_linting'))
   rules.concat(load_rule_file('prose_linting'))
-  rules.concat(load_rule_file('typos'))
+  rules.concat(load_rule_file('typos')) # TO DO after loading make summary Typo: find => replace and we can kill the summary in file
   status('All rules files loaded. Total rules: ',rules.length, true, :light) # argy - close this indent level
   rules = enforce_word_boundaries(rules)
 end

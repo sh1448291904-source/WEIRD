@@ -1,18 +1,23 @@
 [
   {
-    "find": "e[.]?t[.]?c",
-    "replace": "and so on",
-    "summary": "Latin: etc ⇒ and so on"
+    "find": "(argumentum|reductio) ad absurdum",
+    "replace": "oversimplifying",
+    "summary": "Latin: \\1 ad absurdum ⇒ oversimplifying"
   },
   {
-    "find": "et cetera",
-    "replace": "and so on",
-    "summary": "Latin: et cetera ⇒ and so on"
+    "find": "a posteriori",
+    "replace": "based on experience",
+    "summary": "Latin: ⇒ "
   },
   {
-    "find": "e[.]?g[.]?",
-    "replace": "example",
-    "summary": "Latin: eg ⇒ example"
+    "find": "a priori",
+    "replace": "assumed",
+    "summary": "Latin: ⇒ "
+  },
+  {
+    "find": "ad hoc",
+    "replace": "for this purpose",
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "ad naseum",
@@ -20,9 +25,54 @@
     "summary": "Latin: ad naseum ⇒ to a sickening degree"
   },
   {
+    "find": "alter ego",
+    "replace": "other self",
+    "summary": "Latin: ⇒ "
+  },
+  {
+    "find": "bona fides",
+    "replace": "credentials",
+    "summary": "Latin: ⇒ "
+  },
+  {
+    "find": "cf[.]?",
+    "replace": "compare",
+    "summary": "Latin: cf ⇒ compare"
+  },
+  {
+    "find": "circa",
+    "replace": "around",
+    "summary": "Latin: circa ⇒ around"
+  },
+  {
+    "find": "de facto",
+    "replace": "in practice",
+    "summary": "Latin: ⇒ "
+  },
+  {
+    "find": "e[.]?g[.]?",
+    "replace": "example",
+    "summary": "Latin: eg ⇒ example"
+  },
+  {
+    "find": "e[.]?t[.]?c",
+    "replace": "and so on",
+    "summary": "Latin: etc ⇒ and so on"
+  },
+  {
     "find": "et al[.]?",
     "replace": "and others",
     "summary": "Latin: et al ⇒ and others"
+  },
+  {
+    "find": "et cetera",
+    "replace": "and so on",
+    "summary": "Latin: et cetera ⇒ and so on"
+  },
+  {
+    "find": "i[.]?e[.]?[:]?",
+    "replace": "that is",
+    "summary": "Latin: ie ⇒ that is"
   },
   {
     "find": "ibid[.]?",
@@ -35,9 +85,69 @@
     "summary": "Latin: in lieu ⇒ instead"
   },
   {
+    "find": "interim",
+    "replace": "meantime",
+    "summary": "Latin: interim ⇒ meantime"
+  },
+  {
+    "find": "mea culpa",
+    "replace": "my fault",
+    "summary": "Latin: ⇒ "
+  },
+  {
+    "find": "modus operandi",
+    "replace": "method",
+    "summary": "Latin: ⇒ "
+  },
+  {
+    "find": "non sequitur",
+    "replace": "irrelevant point",
+    "summary": "Latin: ⇒ "
+  },
+  {
     "find": "op cit[.]?",
     "replace": "in the work cited",
     "summary": "Latin: op cit ⇒ in the work cited"
+  },
+  {
+    "find": "passim",
+    "replace": "throughout",
+    "summary": "Latin: passim ⇒ throughout"
+  },
+  {
+    "find": "per annum",
+    "replace": "yearly",
+    "summary": "Latin: per annum ⇒ yearly"
+  },
+  {
+    "find": "per capita",
+    "replace": "each person",
+    "summary": "Latin: ⇒ "
+  },
+  {
+    "find": "per diem",
+    "replace": "daily",
+    "summary": "Latin: per diem ⇒ daily"
+  },
+  {
+    "find": "per se",
+    "replace": "as such",
+    "summary": "Latin: per se ⇒ as such"
+  },
+  {
+    "find": "persona non grat(a|is)",
+    "replace": "each person",
+    "summary": "Latin: ⇒ "
+  },
+  {
+    "find": "pro rata",
+    "replace": "proportionately",
+    "summary": "Latin: ⇒ "
+  },
+  {
+    "find": "quid pro quo",
+    "replace": "exchange",
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "sic",
@@ -45,19 +155,9 @@
     "summary": "Latin: sic ⇒ as quoted"
   },
   {
-    "find": "viz",
-    "replace": "namely",
-    "summary": "Latin: viz ⇒ namely"
-  },
-  {
-    "find": "cf[.]?",
-    "replace": "compare",
-    "summary": "Latin: cf ⇒ compare"
-  },
-  {
-    "find": "passim",
-    "replace": "throughout",
-    "summary": "Latin: passim ⇒ throughout"
+    "find": "status quo",
+    "replace": "current situation",
+    "summary": "Latin: ⇒ "
   },
   {
     "find": "verbatim",
@@ -70,113 +170,13 @@
     "summary": "Latin: versus ⇒ against"
   },
   {
-    "find": "circa",
-    "replace": "around",
-    "summary": "Latin: circa ⇒ around"
-  },
-  {
     "find": "via",
     "replace": "through",
     "summary": "Latin: via ⇒ through"
   },
   {
-    "find": "interim",
-    "replace": "meantime",
-    "summary": "Latin: interim ⇒ meantime"
-  },
-  {
-    "find": "(argumentum|reductio) ad absurdum",
-    "replace": "oversimplifying",
-    "summary": "Latin: \\1 ad absurdum ⇒ oversimplifying"
-  },
-  {
-    "find": "i[.]?e[.]?[:]?",
-    "replace": "that is",
-    "summary": "Latin: ie ⇒ that is"
-  },
-  {
-    "find": "per se",
-    "replace": "as such",
-    "summary": "Latin: per se ⇒ as such"
-  },
-  {
-    "find": "per diem",
-    "replace": "daily",
-    "summary": "Latin: per diem ⇒ daily"
-  },
-  {
-    "find": "per annum",
-    "replace": "yearly",
-    "summary": "Latin: per annum ⇒ yearly"
-  },
-  {
-    "find": "ad hoc",
-    "replace": "for this purpose",
-    "summary": "Latin: ⇒ "
-  },
-  {
-    "find": "pro rata",
-    "replace": "proportionately",
-    "summary": "Latin: ⇒ "
-  },
-  {
-    "find": "bona fides",
-    "replace": "credentials",
-    "summary": "Latin: ⇒ "
-  },
-  {
-    "find": "status quo",
-    "replace": "current situation",
-    "summary": "Latin: ⇒ "
-  },
-  {
-    "find": "de facto",
-    "replace": "in practice",
-    "summary": "Latin: ⇒ "
-  },
-  {
-    "find": "per capita",
-    "replace": "each person",
-    "summary": "Latin: ⇒ "
-  },
-  {
-    "find": "a priori",
-    "replace": "assumed",
-    "summary": "Latin: ⇒ "
-  },
-  {
-    "find": "a posteriori",
-    "replace": "based on experience",
-    "summary": "Latin: ⇒ "
-  },
-  {
-    "find": "mea culpa",
-    "replace": "my fault",
-    "summary": "Latin: ⇒ "
-  },
-  {
-    "find": "non sequitur",
-    "replace": "irrelevant point",
-    "summary": "Latin: ⇒ "
-  },
-  {
-    "find": "quid pro quo",
-    "replace": "exchange",
-    "summary": "Latin: ⇒ "
-  },
-  {
-    "find": "alter ego",
-    "replace": "other self",
-    "summary": "Latin: ⇒ "
-  },
-  {
-    "find": "persona non grat(a|is)",
-    "replace": "each person",
-    "summary": "Latin: ⇒ "
-  },
-  {
-    "find": "modus operandi",
-    "replace": "method",
-    "summary": "Latin: ⇒ "
+    "find": "viz",
+    "replace": "namely",
+    "summary": "Latin: viz ⇒ namely"
   }
 ]

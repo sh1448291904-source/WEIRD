@@ -1,23 +1,13 @@
 [
   {
-    "find": "in place of",
-    "replace": "instead of",
-    "summary": "Idiom: in place of ⇒ instead of"
+    "find": "Achilles' heel",
+    "replace": "small but fatal weakeness",
+    "summary": "Idiom: Achilles' heel ⇒ small but fatal weakeness"
   },
   {
-    "find": "in light of",
-    "replace": "considering",
-    "summary": "Idiom: in light of ⇒ considering"
-  },
-  {
-    "find": "so-so",
-    "replace": "mediocre",
-    "summary": "Idiom: so-so ⇒ mediocre"
-  },
-  {
-    "find": "a hard pill to swallow",
-    "replace": "unpleasant but necessary",
-    "summary": "Idiom: a hard pill to swallow ⇒ unpleasant but necessary"
+    "find": "Mess(ed|ing)? about",
+    "replace": "fail\\1 to make progress",
+    "summary": "Idiom: Mess\\1 about ⇒ fail\\1 to make progress"
   },
   {
     "find": "a dime a dozen",
@@ -25,19 +15,24 @@
     "summary": "Idiom: a dime a dozen ⇒ readily available"
   },
   {
+    "find": "a hard pill to swallow",
+    "replace": "unpleasant but necessary",
+    "summary": "Idiom: a hard pill to swallow ⇒ unpleasant but necessary"
+  },
+  {
     "find": "a hot potato",
     "replace": "controversial",
     "summary": "Idiom: a hot potato ⇒ controversial"
   },
   {
+    "find": "a piece of cake",
+    "replace": "an easy task",
+    "summary": "Idiom: ⇒ "
+  },
+  {
     "find": "ace in the hole",
     "replace": "secret advantage",
     "summary": "Idiom: ace in the hole ⇒ secret advantage"
-  },
-  {
-    "find": "Achilles' heel",
-    "replace": "small but fatal weakeness",
-    "summary": "Idiom: Achilles' heel ⇒ small but fatal weakeness"
   },
   {
     "find": "all ears",
@@ -55,26 +50,6 @@
     "summary": "Idiom: at the drop of a hat ⇒ instantly"
   },
   {
-    "find": "go back to the drawing board",
-    "replace": "comprehensively revise",
-    "summary": "Idiom: go back to the drawing board ⇒ comprehensively revise"
-  },
-  {
-    "find": "went back to the drawing board",
-    "replace": "comprehensively revised",
-    "summary": "Idiom: went back to the drawing board ⇒ comprehensively revised"
-  },
-  {
-    "find": "will go back to the drawing board",
-    "replace": "will comprehensively revise",
-    "summary": "Idiom: will go back to the drawing board ⇒ comprehensively revised"
-  },
-  {
-    "find": "going back to the drawing board",
-    "replace": "comprehensively revising",
-    "summary": "Idiom: going back to the drawing board ⇒ comprehensively revised"
-  },
-  {
     "find": "barking up the wrong tree",
     "replace": "looking in the wrong place",
     "summary": "Idiom: barking up the wrong tree ⇒ looking in the wrong place"
@@ -90,14 +65,14 @@
     "summary": "Idiom: best of both worlds ⇒ great combination of two apparent contradictions"
   },
   {
-    "find": "bite off more than you can chew",
-    "replace": "take on more responsibility than you can manage",
-    "summary": "Idiom: ⇒ "
-  },
-  {
     "find": "bite off more than (he|she|they|it) can chew",
     "replace": "take on more responsibility than \\1 can manage",
     "summary": "Idiom: bite off more than \\1 can chew ⇒ take on more responsibility than \\1 can manage"
+  },
+  {
+    "find": "bite off more than you can chew",
+    "replace": "take on more responsibility than you can manage",
+    "summary": "Idiom: ⇒ "
   },
   {
     "find": "bite the bullet",
@@ -125,14 +100,14 @@
     "summary": "Idiom: cheap as chips ⇒ very inexpensive"
   },
   {
-    "find": "Mess(ed|ing)? about",
-    "replace": "fail\\1 to make progress",
-    "summary": "Idiom: Mess\\1 about ⇒ fail\\1 to make progress"
-  },
-  {
     "find": "don't count your chickens before they hatch",
     "replace": "don't make assumptions about a variable outcome",
     "summary": "Idiom: don't count your chickens before they hatch ⇒ don't make assumptions about a variable outcome"
+  },
+  {
+    "find": "ducks in a row",
+    "replace": "preparations completed",
+    "summary": "Idiom: ducks in a row ⇒ preparations completed"
   },
   {
     "find": "elephant in the room",
@@ -150,14 +125,29 @@
     "summary": "Idiom: from scratch ⇒ from nothing"
   },
   {
-    "find": "ducks in a row",
-    "replace": "preparations completed",
-    "summary": "Idiom: ducks in a row ⇒ preparations completed"
+    "find": "go back to the drawing board",
+    "replace": "comprehensively revise",
+    "summary": "Idiom: go back to the drawing board ⇒ comprehensively revise"
+  },
+  {
+    "find": "going back to the drawing board",
+    "replace": "comprehensively revising",
+    "summary": "Idiom: going back to the drawing board ⇒ comprehensively revised"
+  },
+  {
+    "find": "in light of",
+    "replace": "considering",
+    "summary": "Idiom: in light of ⇒ considering"
   },
   {
     "find": "in over (one's|my|your|our|his|her|their) head",
     "replace": "overwhelmed",
     "summary": "Idiom: in over \\1 head ⇒ overwhelmed"
+  },
+  {
+    "find": "in place of",
+    "replace": "instead of",
+    "summary": "Idiom: in place of ⇒ instead of"
   },
   {
     "find": "it is what it is",
@@ -180,19 +170,14 @@
     "summary": "Idiom: once in a blue moon ⇒ very rarely"
   },
   {
-    "find": "a piece of cake",
-    "replace": "an easy task",
-    "summary": "Idiom: ⇒ "
-  },
-  {
     "find": "push(es|ed|ing)? the envelope",
     "replace": "extend\\1 the possible limits",
     "summary": "Idiom: push\\1 the envelope ⇒ extend\\1 the possible limits"
   },
   {
-    "find": "throw the baby out with the bathwater",
-    "replace": "inadvertently discard something valuable while discarding undesireable",
-    "summary": "Idiom: throw the baby out with the bathwater ⇒ inadvertently discard something valuable while discarding undesireable"
+    "find": "so-so",
+    "replace": "mediocre",
+    "summary": "Idiom: so-so ⇒ mediocre"
   },
   {
     "find": "the whole nine yards",
@@ -200,8 +185,23 @@
     "summary": "Idiom: the whole nine yards ⇒ all the way"
   },
   {
+    "find": "throw the baby out with the bathwater",
+    "replace": "inadvertently discard something valuable while discarding undesireable",
+    "summary": "Idiom: throw the baby out with the bathwater ⇒ inadvertently discard something valuable while discarding undesireable"
+  },
+  {
+    "find": "went back to the drawing board",
+    "replace": "comprehensively revised",
+    "summary": "Idiom: went back to the drawing board ⇒ comprehensively revised"
+  },
+  {
     "find": "wild goose chase",
     "replace": "mostly pointless exercise",
     "summary": "Idiom: wild goose chase ⇒ mostly pointless exercise"
+  },
+  {
+    "find": "will go back to the drawing board",
+    "replace": "will comprehensively revise",
+    "summary": "Idiom: will go back to the drawing board ⇒ comprehensively revised"
   }
 ]

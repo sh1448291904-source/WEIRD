@@ -1,17 +1,12 @@
 [
   {
-    "find": "teh",
-    "replace": "the",
-    "summary": "sp"
-  },
-  {
-    "find": "distict(s)?",
-    "replace": "district//1",
-    "summary": "sp"
-  },
-  {
     "find": "apparant",
     "replace": "apparent",
+    "summary": "sp"
+  },
+  {
+    "find": "arent",
+    "replace": "aren't",
     "summary": "sp"
   },
   {
@@ -20,13 +15,43 @@
     "summary": "sp"
   },
   {
-    "find": "sepe?rate",
-    "replace": "separate",
+    "find": "cant",
+    "replace": "can't",
     "summary": "sp"
   },
   {
-    "find": "tendancy",
-    "replace": "tendency",
+    "find": "couldnt",
+    "replace": "couldn't",
+    "summary": "sp"
+  },
+  {
+    "find": "definately",
+    "replace": "definitely",
+    "summary": "sp"
+  },
+  {
+    "find": "distict(s)?",
+    "replace": "district//1",
+    "summary": "sp"
+  },
+  {
+    "find": "guage",
+    "replace": "gauge",
+    "summary": "sp"
+  },
+  {
+    "find": "independant",
+    "replace": "independent",
+    "summary": "sp"
+  },
+  {
+    "find": "isnt",
+    "replace": "isn't",
+    "summary": "sp"
+  },
+  {
+    "find": "maintainance",
+    "replace": "maintenance",
     "summary": "sp"
   },
   {
@@ -40,43 +65,13 @@
     "summary": "sp"
   },
   {
-    "find": "wierd",
-    "replace": "weird",
+    "find": "recieve",
+    "replace": "receive",
     "summary": "sp"
   },
   {
-    "find": "cant",
-    "replace": "can't",
-    "summary": "sp"
-  },
-  {
-    "find": "wont",
-    "replace": "won't",
-    "summary": "sp"
-  },
-  {
-    "find": "isnt",
-    "replace": "isn't",
-    "summary": "sp"
-  },
-  {
-    "find": "theyre",
-    "replace": "they're",
-    "summary": "sp"
-  },
-  {
-    "find": "theyll",
-    "replace": "they'll",
-    "summary": "sp"
-  },
-  {
-    "find": "arent",
-    "replace": "aren't",
-    "summary": "sp"
-  },
-  {
-    "find": "wouldnt",
-    "replace": "wouldn't",
+    "find": "sepe?rate",
+    "replace": "separate",
     "summary": "sp"
   },
   {
@@ -85,28 +80,38 @@
     "summary": "sp"
   },
   {
-    "find": "couldnt",
-    "replace": "couldn't",
+    "find": "teh",
+    "replace": "the",
     "summary": "sp"
   },
   {
-    "find": "maintainance",
-    "replace": "maintenance",
+    "find": "tendancy",
+    "replace": "tendency",
     "summary": "sp"
   },
   {
-    "find": "independant",
-    "replace": "independent",
+    "find": "theyll",
+    "replace": "they'll",
     "summary": "sp"
   },
   {
-    "find": "definately",
-    "replace": "definitely",
+    "find": "theyre",
+    "replace": "they're",
     "summary": "sp"
   },
   {
-    "find": "recieve",
-    "replace": "receive",
+    "find": "wierd",
+    "replace": "weird",
+    "summary": "sp"
+  },
+  {
+    "find": "wont",
+    "replace": "won't",
+    "summary": "sp"
+  },
+  {
+    "find": "wouldnt",
+    "replace": "wouldn't",
     "summary": "sp"
   }
 ]

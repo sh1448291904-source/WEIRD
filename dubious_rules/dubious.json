@@ -1,18 +1,13 @@
 [
   {
-    "find": "will",
+    "find": "(<hr>|<hr />)",
     "replace": "",
-    "summary": "Kill 'will' to reduce future tense and make statements more direct"
+    "summary": "MW linting: Consider using ---- or a div"
   },
   {
-    "find": "literally",
-    "replace": "figuratively",
-    "summary": "'Literally' is frequently incorrectly used."
-  },
-  {
-    "find": "very",
-    "replace": "",
-    "summary": "Probable redundancy: remove 'very' unless absolutely neccesary."
+    "find": "(cock|prick|dick|pussy|bitch|bastard)",
+    "replace": "expletive",
+    "summary": "Potential expletive."
   },
   {
     "find": "argy-bargy",
@@ -20,29 +15,9 @@
     "summary": "Replace 'argy-bargy' to reduce informal expressions. Meaning: (UK) a noisy disagreement[16] ranging from a verbal dispute to pushing-and-shoving or outright fighting."
   },
   {
-    "find": "full stop",
-    "replace": "period",
-    "summary": "Ambiguous: if referring to the punctuation mark (UK), use period (USA). If referring to the phrase, consider rephrasing to avoid confusion. Example: complete stop."
-  },
-  {
-    "find": "scrappy",
-    "replace": "",
-    "summary": "Ambiguous: replace with another word. Badly organised (UK) / untidy (UK) / determined to succeed (US)"
-  },
-  {
-    "find": "(<hr>|<hr />)",
-    "replace": "",
-    "summary": "MW linting: Consider using ---- or a div"
-  },
-  {
     "find": "by means of",
     "replace": "by using",
     "summary": "Verbosity: recast with 'by using', ideally with a stronger verb than using."
-  },
-  {
-    "find": "in the face of",
-    "replace": "despite",
-    "summary": "Verbosity: replace when possible with 'despite'."
   },
   {
     "find": "cold feet",
@@ -50,8 +25,33 @@
     "summary": "Probable idiom: recast with 'to lose commitment'."
   },
   {
-    "find": "(cock|prick|dick|pussy|bitch|bastard)",
-    "replace": "expletive",
-    "summary": "Potential expletive."
+    "find": "full stop",
+    "replace": "period",
+    "summary": "Ambiguous: if referring to the punctuation mark (UK), use period (USA). If referring to the phrase, consider rephrasing to avoid confusion. Example: complete stop."
+  },
+  {
+    "find": "in the face of",
+    "replace": "despite",
+    "summary": "Verbosity: replace when possible with 'despite'."
+  },
+  {
+    "find": "literally",
+    "replace": "figuratively",
+    "summary": "'Literally' is frequently incorrectly used."
+  },
+  {
+    "find": "scrappy",
+    "replace": "",
+    "summary": "Ambiguous: replace with another word. Badly organised (UK) / untidy (UK) / determined to succeed (US)"
+  },
+  {
+    "find": "very",
+    "replace": "",
+    "summary": "Probable redundancy: remove 'very' unless absolutely neccesary."
+  },
+  {
+    "find": "will",
+    "replace": "",
+    "summary": "Kill 'will' to reduce future tense and make statements more direct"
   }
 ]
