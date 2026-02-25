@@ -5,21 +5,13 @@
 # WEIRD - Wiki EdIt Robot Daemon
 #
 # PARAMETERS:
-#   --simulate              Run in simulation mode (doesn't make actual edits). This also forces verbose.
-#   --log-level=LEVEL       Control logging verbosity:
-#                             - none     : No status messages (default)
-#                             - light    : Key progress indicators (sites, rules, pages changed)
-#                             - verbose  : All status messages including details
-#   --verbose               Shorthand for --log-level=verbose
-#
-#   RULES FILES (all enabled by default, use --no-* to disable):
-#   --no-typos              Disable typos.json rules
-#   --no-grammar            Disable grammar.json rules
-#   --no-prose-linting      Disable prose_linting.json rules
-#   --no-mw-linting         Disable mw_linting.json rules
-#   --no-international-english  Disable international_english.json rules (British to American spelling)
-#   --no-dubious            Disable dubious.json rules (always simulated, never written)
-#   --no-glossary           Disable glossary tagging (tooltips from Glossary page)
+#   --simulate                    Run in simulation mode (doesn't make actual edits). This also forces verbose.
+#   --config_filepath = FILEPATH  Location of the configuration file for all other global parameters. 
+#   --log-level=LEVEL             Control logging verbosity:
+#                                   - none     : No status messages (default)
+#                                   - light    : Key progress indicators (sites, rules, pages changed)
+#                                   - verbose  : All status messages including details
+#   --verbose                     Shorthand for --log-level=verbose
 #
 # EXAMPLES:
 #   ruby WEIRD.rb
@@ -28,10 +20,38 @@
 #   ruby WEIRD.rb --log-level=verbose
 #   ruby WEIRD.rb --verbose
 #   ruby WEIRD.rb --simulate --no-typos --no-grammar
-#   ruby WEIRD.rb --no-prose-linting
-#   ruby WEIRD.rb --no-glossary
+#
+# GLOBAL CONFIG FILE
+#   log
+#     path
+#     prefix
+#     ext
+#   site_list = FILEPATH      Location of the json file containing the list of sites. Default: sites/Sites.json
+# 
+# SITE CONFIG FILES
+#   api = URL
+#   
+#   RULES PROCESSING
+#   These are all disabled by default,
+#   include them to enable them.
+#   
+#   grammar            
+#   prose_linting
+#      general      
+#      typos              
+#   mw_linting                                      mediawiki linting
+#      force_heading_case: none, title, sentence
+#      general
+#      H1_fix
+#      TOC_fix         
+#   international-english                           UK spellings to US  
+#   dubious                                         Produces a copyedits.txt of suggested changes
+#   glossary                                        Takes terms and defs from a Glossary page and tags them in content.
+#
+#
+#
+#
 # TO DO
-# <ol> lists
 # Template calls:
 #   Use categories_to_bottom logic for protecting templates right at the start, and restore at the end.
 #   Do mw-linting first to make template's pipes nice.
@@ -53,41 +73,11 @@
 
 require 'mediawiki/butt'
 require 'json'
+require 'optparse'
 require 'time'
 require 'lib/weird.rb'
 require 'lib/WEIRD/dubious.rb' # ARGY - right?
 require 'lib/WEIRD/logging.rb'
-
-# Command line arguments
-SIMULATE = ARGV.include?('--simulate')
-$status_indent = 0
-
-
-# Parse logging level: none (default), light, or verbose
-log_level_arg = ARGV.find { |arg| arg.start_with?('--log-level=') }
-LOG_LEVEL = if log_level_arg
-              log_level_arg.split('=')[1].downcase.to_sym
-            elsif ARGV.include?('--verbose')
-              :verbose
-            else
-              :none
-            end
-
-# Ensure simulation mode shows verbose logging
-LOG_LEVEL = :verbose if SIMULATE
-
-# Parse rules file flags (defaults to true/enabled)
-RULES_CONFIG = {
-  typos: !ARGV.include?('--no-typos'),
-  grammar: !ARGV.include?('--no-grammar'),
-  prose_linting: !ARGV.include?('--no-prose-linting'),
-  mw_linting: !ARGV.include?('--no-mw-linting'),
-  international_english: !ARGV.include?('--no-international-english'),
-  dubious: !ARGV.include?('--no-dubious'),
-  glossary: !ARGV.include?('--no-glossary')
-}.freeze
-
-
 
 
 def process_site(site_cfg)
@@ -224,29 +214,119 @@ def process_site(site_cfg)
   end
 end
 
+def load_parameters(options)
+  OptionParser.new do |opts|
+    opts.banner = "Usage: WEIRD.rb [options]"
+
+    opts.on("-cFILEPATH", "--config_filepath=FILEPATH", "OPTIONAL: (String) Path to the configuration JSON file. Default WEIRD.cfg") do |n|
+      config_filepath = n        
+    end
+
+    opts.on("-lLEVEL", "--log-level=LEVEL","none | light | verbose") do |n|
+      log_level = n
+    end
+
+    opts.on("-v", "--verbose","Same as -lverbose") do |n|
+      log_level = Status::Verbosity::verbose
+    end
+
+    SIMULATE = opts.on("--simulate", "OPTIONAL: Run in simulation mode")
+    # TODO: logging levels
+  end.parse!
+
+  # Guard
+  config_filepath = "WEIRD.cfg" if config_filepath.nil?
+end
+
+def write_default_config()
+  CONFIG = [
+    {
+      "log" => {
+        "path"   => "logs/",
+        "prefix" => "WEIRD_",
+        "ext"    => ".log"
+      },
+      "site_list": "sites/Sites.json"
+    }
+  ]
+  File.write(config_filepath,CONFIG)
+  status("Default parameters written:\n", 0, :light)    
+  status(CONFIG, 1, :verbose)
+  status('\n',-1,:verbose)
+end
 
 
 start_time=Time.local
-status("Dependencies loaded "), start_time.strftime('%Y%m%d_%H%M%S', true, :light)
-status('simulation_mode', SIMULATE, false, :verbose)
+status = Weird::Status.write #Alias?
+status("Dependencies loaded @ #{start_time.strftime('%Y%m%d_%H%M%S', 0, :none)}") 
+
+SIMULATE = false
+load_parameters(options)
+status("Parameters loaded @ #{start_time.strftime('%Y%m%d_%H%M%S', 0, :light)}") 
+status(options,1,:verbose) 
+
+
+if File.File?(config_filepath) then
+  CONFIG=load_json(config_filepath,True)
+  status("Parameters loaded:\n", CONFIG, 0, :verbose)
+
+else # if there is no config file, write a default one
+  write_default_config()
+end
+
+# Command line arguments
+status('Simulation mode:', SIMULATE, false, :verbose)
+
+#read
+
+# Parse logging level: none (default), light, or verbose
+log_level_arg = ARGV.find { |arg| arg.start_with?('--log-level=') }
+LOG_LEVEL = if log_level_arg
+              log_level_arg.split('=')[1].downcase.to_sym
+            elsif ARGV.include?('--verbose')
+              :verbose
+            else
+              :none
+            end
+
+# Ensure simulation mode shows verbose logging
+LOG_LEVEL = :verbose if SIMULATE
+
+# Parse rules file flags (defaults to true/enabled)
+RULES_CONFIG = {
+  typos: !ARGV.include?('--no-typos'),
+  grammar: !ARGV.include?('--no-grammar'),
+  prose_linting: !ARGV.include?('--no-prose-linting'),
+  mw_linting: !ARGV.include?('--no-mw-linting'),
+  international_english: !ARGV.include?('--no-international-english'),
+  dubious: !ARGV.include?('--no-dubious'),
+  glossary: !ARGV.include?('--no-glossary')
+}.freeze
+
+
+
+
 
 sites = load_json('sites.json')
-status('Sites loaded: ', sites.length, false, :light)
+status('Sites loaded: @{sites.length}' , 0, :light)
 
 # TODO: Load all the old ARGV from a <sitename>_config.json
 status('rules_disabled', RULES_CONFIG.reject { |_, v| v }.keys.join(', '), false, :verbose) if RULES_CONFIG.any? { |_, v| !v }
 
-puts "\nStarting Wiki Trawl... #{SIMULATE ? '[SIMULATION]' : '[LIVE]'}"
 runtime=Time.local-start_time
 status('Initialization completed. Seconds:', runtime)
 
+puts "\nStarting Wiki Trawl... #{SIMULATE ? '[SIMULATION]' : '[LIVE]'}"
 sites.each do |site_cfg|
   site_started=Time.local
-  status('Starting ',site_cfg[Name],true)
+  status('Starting site: #{site_cfg[Name]}',0)
+  status('\n',1)
+
   process_site(site.cfg)
 
   runtime=Time.local-site_started
-  status("Finished #{site_cfg[Name]}. It took ", runtime.strftime(%H%M%S)) # ARGY: Need to pass indent-1 to logger somehow
+  status("Finished #{site_cfg[Name]}. It took #{runtime.strftime(%H%M%S)}.",0,light)
+  status('\n',-1)
 end
 
 # =========================================================

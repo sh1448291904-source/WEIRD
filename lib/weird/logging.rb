@@ -5,10 +5,10 @@ require 'logger'
 module Weird
   # Things for logs/status messages
   # Use of status:
-  #   all: site started ended, major sections entered. Also to STDOUT.
+  #   none: site started ended, major sections entered. Also to STDOUT.
   #   light: how much work was done, minor sections entered. Also to STDOUT.
-  #   verbose: almost a full stack trace. To logfile.
-
+  #   verbose: almost a full stack trace. To logfilename.
+  #
   # ARGY: This is somewhat rubbish
   # CURRENT Example use cases:
   # status('Always gunna log this', interesting_variable)
@@ -17,31 +17,58 @@ module Weird
   # Noting that there is currently no mechanism in status for reducing indent
   # eg: the "true/false" needs to be more like +1, 0, -1, or keywords to that effect
 
-  def status(var_name, value, is_section = false, level = :verbose)
-    return unless log?(level)
+  # ARGY: I am trying to provide an exposable enum for Verbosity
+  # It should get used for LOG_LEVEL and each status call
+  # When I produce a new function call to log
+  # something, I want to be presented with a list of options for "level"
+  
+  class Status
+    # The default output file should be logs/WEIRD.log, not $stderr,
+    #   but can be overridden by the cfg file.
+    #   (Moving away from parms to a cfg file because complexity).
+    # I am going to be reading the logs when new rules / sites, and I trigger verbose.
+    # Actual error errors should go to stdout for immediate action.
 
-    if is_section
-      puts "\n>>> #{var_name}"
-      $status_indent = 1
-    else
+    attr_reader :log_level
+    logfilename='' # I want this var to be exposed to all of this class
+
+    class Verbosity
+      none = 0
+      light = 1
+      verbose = 2
+    end
+
+    def initialize
+      now=Time.now.strftime('%Y%m%d_%H%M%S')
+      l=CONFIG['log']
+      logfilename = l['path'] + l['prefix'] + now + l['ext']
+      $status_indent = 0
+    end
+    
+    def write(msg, indent_delta: 0, level: Status::Verbosity:none) # ARGY
+      return unless level<=log_level
+
+      # Guard
+      if indent_delta > 0 then
+        indent_delta = 1
+      elseif indent_delta <0 
+        indent_delta = -1
+      end
+
+      $status_indent+=indent_delta
       indent = '  ' * $status_indent
-      puts "#{indent}> #{var_name}: #{value.inspect}"
-    end
-  end
 
-  # Helper to determine if a message should be logged based on the current LOG_LEVEL
-  # Probably rubbish
-  def log?(level)
-    case LOG_LEVEL
-    when :none
-      false
-    when :light
-      %i[light all].include?(level)
-    when :verbose
-      true
-    end
-  end
+      output = "#{indent}#{msg}"
 
+      puts output if level <= light?
+
+      File.open(logfilename,"a") do |f|
+        f << output + "\n"
+      end
+    end
+
+
+  # Argy's error logging stuff
   class Logging
     attr_reader :log_level
 

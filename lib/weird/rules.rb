@@ -3,7 +3,7 @@
 # rules.rb
 # Rules processing.
 
-require 'logger'
+
 
 module Weird
   # Categories not in templates should be moved to the bottom of the page.
@@ -17,56 +17,72 @@ module Weird
   #     Light log entering a method, finishing a method or class.
   #     Verbose log changes to major vars inside of loops 
 
-  
-  class mw_linting
-    def categories_to_bottom(text)
+  # MediaWiki page linting logic
+  class MW_linting
+    
+    # enum for heading_casing
+    Class HeadingCases
+      HeadingSentenceCase = 0
+      HeadingTitleCase = 1
+    end
+
+    def categories_to_bottom(page)
       # Recursive regex for balanced {{template}} structures
       template_pattern = /\{\{(?:[^{}]|\g<0>)*}}/
 
       # 1. Collect only 'loose' categories (outside of templates)
       categories = []
-      parts = text.split(template_pattern)
+      parts = page.split(template_pattern)
       parts.each do |segment|
         categories.concat(segment.scan(/\[\[Category:[^\]\n]+\]\]/))
       end
 
-      return text if categories.empty?
+      return page if categories.empty?
 
       # Remove duplicates
       categories.uniq!
 
-      # 2. Hide templates to protect categories inside them from removal
+      # 2. Hide templates to prevent removing categories inside them from 
       placeholders = []
-      protected_text = text.gsub(template_pattern) do |match|
+      protected_text = page.gsub(template_pattern) do |match|
         placeholders << match
         "___TEMPLATE_#{placeholders.size - 1}___"
       end
 
-      # 3. Remove loose categories from the protected text
+      # 3. Remove loose categories from the protected page
+      # TO DO: Exclude leading : (:Category:whatever)
       cat_regex = /\[\[Category:[^\]\n]+\]\]/
       protected_text.gsub!(cat_regex, '')
 
+      # TODO
+      # If no loose cats exit. No err msg, they have special:uncatted cats for that.
+      # See if the loose cats appear in the templates, and if so, remove them.
+      # If no loose cats now, exit.
+      # 
       # 4. Restore templates and clean up whitespace
-      # .strip removes leading/trailing gaps; gsub collapses 3+ newlines to 2
+      # .strip removes leading/trailing gaps; 
       clean_text = protected_text.gsub(/___TEMPLATE_(\d+)___/) { placeholders[Regexp.last_match(1).to_i] }.strip
-      clean_text.gsub!(/\n{3,}/, "\n\n")
+      # Clean up any holes that may have been left by the extraction
+      clean_text = clean_text.gsub(/[ \t]+$/, '') # remove trailing spaces
+      clean_text.gsub!(/\n{3,}/, "\n\n") # collapse 3+ newlines to 2
 
       # 5. Format category block: one per line, trimmed of trailing spaces
       category_block = categories.map(&:strip).join("\n")
 
-      applied_summaries << "MW Lint: Moved #{categories.length} categories to bottom of page" if categories.length.positive?
-      status('categories_moved', categories.length, false, :light)
+      # TO DO: Check original page against changed for if there was a REAL difference.
 
-      # Return reconstructed text with standard bottom-of-page spacing
+      status('Categories_moved', categories.length, false, :light)
+
+      # Return reconstructed page with standard bottom-of-page spacing
       "#{clean_text}\n\n#{category_block}\n"
     end
 
-    def convert_html_lists_to_wikitext(text)
+    def convert_html_lists_to_wikitext(page)
       # 1. Strip <p> tags and standardize basic tags
       # Paragraphs inside <li> tags break MediaWiki bullet logic
-      text.gsub!(%r{</?p[^>]*>}i, '')
-      text.gsub!(/<(ul|ol|dl)[^>]*>/i) { "<#{Regexp.last_match(1).downcase}>" }
-      text.gsub!(/<(li|dt|dd)[^>]*>/i) { "<#{Regexp.last_match(1).downcase}>" }
+      page.gsub!(%r{</?p[^>]*>}i, '')
+      page.gsub!(/<(ul|ol|dl)[^>]*>/i) { "<#{Regexp.last_match(1).downcase}>" }
+      page.gsub!(/<(li|dt|dd)[^>]*>/i) { "<#{Regexp.last_match(1).downcase}>" }
 
       # 2. Tracking state with a stack
       # This remembers if we are in a *, #, or : environment
@@ -74,7 +90,7 @@ module Weird
 
       # Regex to split by all relevant list tags
       tag_regex = %r{(<ul?>|</ul?>|<ol?>|</ol?>|<dl?>|</dl?>|<li>|</li>|<dt?>|</dt?>|<dd?>|</dd?>)}i
-      parts = text.split(tag_regex)
+      parts = page.split(tag_regex)
 
       processed_parts = parts.map do |part|
         tag = part.downcase
@@ -117,10 +133,15 @@ module Weird
       result.strip
     end
 
+    # force all headings into sentence case or title case 
+    def heading_casing(page,case)
+            
+    end
+
     # If a Heading 1 is detected, increase all heading levels by 1
-    def repair_headings(text)
+    def repair_headings(page)
       # Check if a Heading 1 exists: exactly one '=' at start/end of line
-      if text.match?(/^=[^=]+=\s*$/)
+      if page.match?(/^=[^=]+=\s*$/)
 
         # Loop from 5 down to 1 to increment levels safely
         5.downto(1) do |i|
@@ -130,7 +151,7 @@ module Weird
 
           # Regex explanation:
           # ^#{current_markers}  -> Starts with exactly 'i' equals signs
-          # (.+?)                -> Captures the heading text (non-greedy)
+          # (.+?)                -> Captures the heading page (non-greedy)
           # #{current_markers}   -> Ends with exactly 'i' equals signs
           # \s*$                 -> Allows for trailing whitespace
           #
@@ -138,7 +159,7 @@ module Weird
           # a higher-level heading (e.g., ensuring H2 doesn't match H3)
           find_regex = /^(?<!=)#{current_markers}([^=].+?[^=])#{current_markers}(?!=)\s*$/
 
-          text.gsub!(find_regex) do
+          page.gsub!(find_regex) do
             "#{next_markers}#{Regexp.last_match(1)}#{next_markers}"
           end
         end
@@ -146,12 +167,12 @@ module Weird
         status('headings_repaired', 'Detected H1 and repaired all heading levels', false, :light)
       end
 
-      text
+      page
     end
 
-    # Check page text for plain page names or explicit links and convert to
+    # Check page page for plain page names or explicit links and convert to
     # either [[PageName]] or {{icon|PageName}} when appropriate.
-    def page_link_check(page_title, text, pages_main, icon_map)
+    def page_link_check(page_title, page, pages_main, icon_map)
       # Logging: mark start of page_link_check for this page
       status('Page link checking started', page_title, true, :verbose)
       changed = false
@@ -164,8 +185,8 @@ module Weird
         # If there's an explicit link [[Pagename]] and an icon exists, replace
         if icon_map[pname]
           link_regex = /\[\[\s*#{Regexp.escape(pname)}\s*\]\]/
-          if text.match?(link_regex)
-            text = text.gsub(link_regex, "{{icon|#{pname}}}")
+          if page.match?(link_regex)
+            page = page.gsub(link_regex, "{{icon|#{pname}}}")
             changed = true
             replacements += 1
             status('icon_replaced', pname, false, :verbose)
@@ -174,29 +195,29 @@ module Weird
 
         # If there's a plain exact match (word boundary) and no existing link,
         # convert the first occurrence to a link or icon template.
-        link_exists = text.match(/\[\[\s*#{Regexp.escape(pname)}(?:\|[^\]]+)?\s*\]\]/)
+        link_exists = page.match(/\[\[\s*#{Regexp.escape(pname)}(?:\|[^\]]+)?\s*\]\]/)
         next if link_exists
 
         plain_regex = /(?<!\[\[)(?<!\w)#{Regexp.escape(pname)}(?!\w)/
-        next unless text.match?(plain_regex)
+        next unless page.match?(plain_regex)
 
         replacement = icon_map[pname] ? "{{icon|#{pname}}}" : "[[#{pname}]]"
-        text = text.sub(plain_regex, replacement)
+        page = page.sub(plain_regex, replacement)
         changed = true
         replacements += 1
         status('plain_replaced', "#{pname} -> #{replacement}", false, :verbose)
       end
 
       status('Page link updates:', { changed: changed, replacements: replacements }, false, :verbose)
-      [text, changed]
+      [page, changed]
     end
 
     # Check and manage TOC based on heading count
     # If more than 10 headings: ensure {{TOC right}} exists
     # If 10 or fewer headings: remove any {{TOC}} or {{TOC right}}
-    def manage_toc(text)
+    def manage_toc(page)
       # Count headings (== through ====== level, not including = on its own)
-      heading_count = text.scan(/\n={2,6}[^=]/).length
+      heading_count = page.scan(/\n={2,6}[^=]/).length
       status('heading_count', heading_count, false, :verbose)
 
       changed = false
@@ -204,45 +225,45 @@ module Weird
 
       if heading_count > 10
         # Need a TOC - check if one exists
-        has_toc_right = text.include?('{{TOC right}}')
-        has_toc = text.include?('{{TOC}}')
+        has_toc_right = page.include?('{{TOC right}}')
+        has_toc = page.include?('{{TOC}}')
 
-        return text, changed, heading_count, toc_status if has_toc_right
+        return page, changed, heading_count, toc_status if has_toc_right
 
         if has_toc
           # Convert {{TOC}} to {{TOC right}}
-          text = text.gsub('{{TOC}}', '{{TOC right}}')
+          page = page.gsub('{{TOC}}', '{{TOC right}}')
           status('toc_converted', '{{TOC}} -> {{TOC right}}', false, :verbose)
           toc_status = 'converted to {{TOC right}}'
           changed = true
         else
-          # Add {{TOC right}} at the beginning (after any intro text before first heading)
-          first_heading_idx = text.index(/\n={2,6}[^=]/)
+          # Add {{TOC right}} at the beginning (after any intro page before first heading)
+          first_heading_idx = page.index(/\n={2,6}[^=]/)
           if first_heading_idx
-            text.insert(first_heading_idx, "{{TOC right}}\n\n")
+            page.insert(first_heading_idx, "{{TOC right}}\n\n")
             status('toc_inserted', '{{TOC right}} added before first heading', false, :verbose)
             toc_status = 'inserted {{TOC right}}'
             changed = true
           end
         end
         # return here for a bit of a cleaner method
-        return text, changed, heading_count, toc_status
+        return page, changed, heading_count, toc_status
       end
 
       # 10 or fewer headings - remove any TOC
-      if text.include?('{{TOC right}}')
-        text = text.gsub('{{TOC right}}', '')
+      if page.include?('{{TOC right}}')
+        page = page.gsub('{{TOC right}}', '')
         status('toc_removed', 'Removed {{TOC right}} (<=10 headings)', false, :verbose)
         toc_status = 'removed {{TOC right}}'
         changed = true
-      elsif text.include?('{{TOC}}')
-        text = text.gsub('{{TOC}}', '')
+      elsif page.include?('{{TOC}}')
+        page = page.gsub('{{TOC}}', '')
         status('toc_removed', 'Removed {{TOC}} (<=10 headings)', false, :verbose)
         toc_status = 'removed {{TOC}}'
         changed = true
       end
 
-      [text, changed, heading_count, toc_status]
+      [page, changed, heading_count, toc_status]
     end
 
 
@@ -305,8 +326,8 @@ module Weird
     # Adds <abbr> tags with dashed border to first instance of each glossary term
     # Uses word boundaries for simple words
     # Only the first instance is tagged; other instances are unwrapped if they have abbr tags
-    def apply_glossary_tags(text, glossary_terms)
-      return text if glossary_terms.empty?
+    def apply_glossary_tags(page, glossary_terms)
+      return page if glossary_terms.empty?
 
       status('apply_glossary_tags', "checking #{glossary_terms.length} terms", false, :verbose)
       terms_found = 0
@@ -323,8 +344,8 @@ module Weird
         abbr_pattern = %r{<abbr[^>]*>#{escaped_term}</abbr>}
         plain_pattern = Regexp.new(word_boundary_pattern(term))
 
-        abbr_match = text.match(abbr_pattern)
-        plain_match = text.match(plain_pattern)
+        abbr_match = page.match(abbr_pattern)
+        plain_match = page.match(plain_pattern)
 
         # Determine which is first
         if abbr_match && plain_match
@@ -351,7 +372,7 @@ module Weird
               status('glossary_definition_match', "#{term}: definition already matches", false, :verbose)
             else
               updated_abbr = abbr_full.gsub(/title="[^"]*"/, %(title="#{definition}"))
-              text = text.sub(abbr_full, updated_abbr)
+              page = page.sub(abbr_full, updated_abbr)
               terms_updated += 1
               status('glossary_updated_first', "#{term}: changed from '#{current_title}' to '#{definition}'", false, :verbose)
             end
@@ -360,14 +381,14 @@ module Weird
           # Remove abbr tags from any other instances of this term
           search_start = abbr_match.end(0)
           loop do
-            remaining = text[search_start..]
+            remaining = page[search_start..]
             break unless remaining.match?(abbr_pattern)
 
             next_match = remaining.match(abbr_pattern)
             next_abbr_full = next_match[0]
             next_unwrapped = next_abbr_full.gsub(/<abbr[^>]*>/, '').gsub('</abbr>', '')
             search_end = search_start + next_match.end(0)
-            text[search_start...search_end] = text[search_start...search_end].sub(next_abbr_full, next_unwrapped)
+            page[search_start...search_end] = page[search_start...search_end].sub(next_abbr_full, next_unwrapped)
             terms_removed += 1
             status('glossary_removed_duplicate', "#{term}: unwrapped duplicate instance", false, :verbose)
             search_start += next_unwrapped.length
@@ -379,15 +400,15 @@ module Weird
           match_text = plain_match[0]
           match_idx = plain_match.begin(0)
           replacement = %(<abbr title="#{definition}">#{match_text}</abbr>)
-          text = text[0...match_idx] + replacement + text[(match_idx + match_text.length)..]
+          page = page[0...match_idx] + replacement + page[(match_idx + match_text.length)..]
           terms_tagged += 1
           status('glossary_tagged_first', "#{term}: #{definition.truncate(40)}", false, :verbose)
 
           # Remove abbr tags from any other instances of this term
           unwrapped_abbr_pattern = %r{<abbr[^>]*>#{Regexp.escape(match_text)}</abbr>}
-          while text.match?(unwrapped_abbr_pattern)
-            match = text.match(unwrapped_abbr_pattern)
-            text = text.sub(match[0], match_text)
+          while page.match?(unwrapped_abbr_pattern)
+            match = page.match(unwrapped_abbr_pattern)
+            page = page.sub(match[0], match_text)
             terms_removed += 1
             status('glossary_removed_duplicate', "#{term}: unwrapped duplicate instance", false, :verbose)
           end
@@ -396,7 +417,7 @@ module Weird
 
       status_msg = "found:#{terms_found} matched:#{terms_matched} updated:#{terms_updated} tagged:#{terms_tagged} removed:#{terms_removed}"
       status('glossary_summary', status_msg, false, :verbose)
-      text
+      page
     end
 
 
@@ -407,11 +428,11 @@ module Weird
   # These methods don't belong to any one rules class, they operate across multiple
 
   # Helper function to apply word boundaries to simple words
-  # Returns escaped pattern string with word boundaries if text is a simple word
-  def word_boundary_pattern(text)
-    escaped = Regexp.escape(text)
-    # Check if the text is a simple word (only alphanumeric, underscores, hyphens, apostrophes)
-    if text.match?(/^[\w\-']+$/)
+  # Returns escaped pattern string with word boundaries if page is a simple word
+  def word_boundary_pattern(page)
+    escaped = Regexp.escape(page)
+    # Check if the page is a simple word (only alphanumeric, underscores, hyphens, apostrophes)
+    if page.match?(/^[\w\-']+$/)
       "\\b#{escaped}\\b"
     else
       escaped

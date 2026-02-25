@@ -36,24 +36,24 @@ module Weird
 
   def rulefilename(name)
     pre = 'rules\\'
-    ext = '.json'  
+    ext = '.json'
     name = pre + name + ext
   end
 
   def load_rule_file(name)
-    exit unless RULES_CONFIG[name]  
-    pathname = rulefilename(name)  
-    if File.file(pathname) then
-      file=load_json(pathname)  
+    exit unless RULES_CONFIG[name]
+    pathname = rulefilename(name)
+    if File.file(pathname)
+      file = load_json(pathname)
       status('Rules_file_loaded', "#{rules_file_config[:name]}: #{file_rules.length} rules", false, :verbose)
     else
-      status('Expected rules file missing:', pathname ) 
+      status('Expected rules file missing:', pathname)
     end
-    return file
+    file
   end
 
   def load_rules_files(rules)
-    status('Loading rules files', , true, :light) # argy - new indent level
+    status('Loading rules files', rules, true, :light) # argy - new indent level
     rules.concat(load_rule_file('grammar'))
     rules.concat(load_rule_file('idioms'))
     rules.concat(load_rule_file('international_english'))
@@ -61,10 +61,9 @@ module Weird
     rules.concat(load_rule_file('mw_linting'))
     rules.concat(load_rule_file('prose_linting'))
     rules.concat(load_rule_file('typos')) # TO DO after loading make summary Typo: find => replace and we can kill the summary in file
-    status('All rules files loaded. Total rules: ',rules.length, true, :light) # argy - close this indent level
+    status('All rules files loaded. Total rules: ', rules.length, true, :light) # argy - close this indent level
     rules = enforce_word_boundaries(rules)
   end
-
 
   # Build list of main-namespace pages and map of available icon files
   def map_wiki(wiki, namespaces, pages_main, icon_map)
