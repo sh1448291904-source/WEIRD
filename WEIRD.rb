@@ -230,7 +230,10 @@ def load_parameters(options)
       log_level = Status::Verbosity::verbose
     end
 
-    SIMULATE = opts.on("--simulate", "OPTIONAL: Run in simulation mode")
+    opts.on("-s", "--simulate", "OPTIONAL: Run in simulation mode") do |n|
+      SIMULATE = n
+    end
+    log_level = Status::Verbosity::verbose if SIMULATE 
     # TODO: logging levels
   end.parse!
 
@@ -279,17 +282,6 @@ status('Simulation mode:', SIMULATE, false, :verbose)
 
 #read
 
-# Parse logging level: none (default), light, or verbose
-log_level_arg = ARGV.find { |arg| arg.start_with?('--log-level=') }
-LOG_LEVEL = if log_level_arg
-              log_level_arg.split('=')[1].downcase.to_sym
-            elsif ARGV.include?('--verbose')
-              :verbose
-            else
-              :none
-            end
-
-# Ensure simulation mode shows verbose logging
 LOG_LEVEL = :verbose if SIMULATE
 
 # Parse rules file flags (defaults to true/enabled)
@@ -307,8 +299,15 @@ RULES_CONFIG = {
 
 
 
-sites = load_json('sites.json')
+sites = File.readlines('sites.txt', chomp: true).reject(&:empty?)
+
 status('Sites loaded: @{sites.length}' , 0, :light)
+
+sites.each do |site|
+  site_config=load_json() site # do something with each site
+end
+
+#OLD
 
 # TODO: Load all the old ARGV from a <sitename>_config.json
 status('rules_disabled', RULES_CONFIG.reject { |_, v| v }.keys.join(', '), false, :verbose) if RULES_CONFIG.any? { |_, v| !v }
