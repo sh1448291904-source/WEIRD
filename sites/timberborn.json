@@ -1,0 +1,13 @@
+[
+  {
+    "wiki": {
+      "url": "https://timberborn.wiki.gg/",
+      "api_path": "api.php",
+      "namespaces": [0, 6, 14]
+    },
+    "rules": {
+      "grammar": true,
+      "typos" : true
+    }
+  }
+]
