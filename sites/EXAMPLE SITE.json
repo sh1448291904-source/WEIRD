@@ -1,0 +1,23 @@
+[
+  {
+    "wiki": {
+      "url": "https://YOUR_WIKI_URL/",
+      "api_path": "api.php",
+      "namespaces": [0, 6, 14]
+    },
+    "rules": {
+      "grammar": true,
+      "typos": true,
+      "prose_linting": {
+        "rules": true,
+        "heading_case": "sentence|title PICK_ONE"
+      },
+      "international_english": true,
+      "dubious": true,
+      "glossary": true,
+      "mw-linting": {
+        "rules": true
+      }  
+    }
+  }
+]

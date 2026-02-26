@@ -20,12 +20,6 @@ module Weird
   # MediaWiki page linting logic
   class MW_linting
     
-    # enum for heading_casing
-    Class HeadingCases
-      HeadingSentenceCase = 0
-      HeadingTitleCase = 1
-    end
-
     def categories_to_bottom(page)
       # Recursive regex for balanced {{template}} structures
       template_pattern = /\{\{(?:[^{}]|\g<0>)*}}/
@@ -131,11 +125,6 @@ module Weird
       result.gsub!(/\n{3,}/, "\n\n")
 
       result.strip
-    end
-
-    # force all headings into sentence case or title case 
-    def heading_casing(page,case)
-            
     end
 
     # If a Heading 1 is detected, increase all heading levels by 1
@@ -454,8 +443,14 @@ module Weird
     rules
   end
 
-  def main(page)
-      # call all classes.main one by one
+  class prose_linting(page)
+
+    # force all headings into sentence case or title case 
+    def heading_casing(page)
+      # read casing from site cfg        
+    end
+
   end
+
 
 end

@@ -82,4 +82,55 @@ module Weird
     end
     status('Page-related icons count: ', icon_map.keys.length, false, :light)
   end
+
+  def load_parameters
+    OptionParser.new do |opts|
+      opts.banner = 'Usage: WEIRD.rb [options]'
+
+      opts.on('-cFILEPATH', '--config_filepath=FILEPATH', 'OPTIONAL: (String) Path to the configuration JSON file. Default WEIRD.cfg') do |n|
+        config_filepath = n
+      end
+
+      opts.on('-lLEVEL', '--log-level=LEVEL', 'none | $light | $verbose') do |n|
+        $log_level = n
+      end
+
+      opts.on('-v', '--$verbose', 'Same as -l$verbose') do |n|
+        $log_level = Status::Verbosity :$verbose
+      end
+
+      opts.on('-s', '--simulate', 'OPTIONAL: Run in simulation mode') do |n|
+        $simulate = n
+      end
+      $log_level = Status::Verbosity :$verbose if $simulate
+      # TODO: logging levels
+    end.parse!
+
+    # Guard
+    config_filepath = 'WEIRD.cfg' if config_filepath.nil
+    status('Parameters loaded', 0, $light)
+    status("config_filepath = #{config_filepath}", 1, $verbose)
+    status("$log_level = #{$log_level}", 0, $verbose)
+    status("$simulate = #{$simulate}", 0, $verbose)
+    status("\n", -1, $verbose)
+
+    config_filepath
+  end
+
+  def write_default_config(config_filepath)
+    $config = [
+      {
+        'log' => {
+          'path' => 'logs/',
+          'prefix' => 'WEIRD_',
+          'ext' => '.log'
+        },
+        site_list: 'sites/Sites.json'
+      }
+    ]
+    File.write(config_filepath, JSON.pretty_generate($config))
+    status("Default parameters written:\n", 0, $light)
+    status($config, 1, $verbose)
+    status('\n', -1, $verbose)
+  end
 end

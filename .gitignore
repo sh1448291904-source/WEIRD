@@ -1,9 +1,10 @@
 sites/*_creds.json
 !sites/SITENAME_creds.json
+*example*
+!sites/EXAMPLE SITE.json
 sort*
 rules/*_test_new.txt
 *scratch*
-*example*
 
 # Ruby things
 Gemfile.lock

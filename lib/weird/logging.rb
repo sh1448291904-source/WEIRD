@@ -30,7 +30,6 @@ module Weird
     # Actual error errors should go to stdout for immediate action.
 
     attr_reader :log_level
-    logfilename='' # I want this var to be exposed to all of this class
 
     class Verbosity
       none = 0
@@ -41,11 +40,11 @@ module Weird
     def initialize
       now=Time.now.strftime('%Y%m%d_%H%M%S')
       l=CONFIG['log']
-      logfilename = l['path'] + l['prefix'] + now + l['ext']
-      $status_indent = 0
+      @logfilename = l['path'] + l['prefix'] + now + l['ext']
+      @status_indent = 0
     end
     
-    def write(msg, indent_delta: 0, level: Status::Verbosity:none) # ARGY
+    def write(msg, indent_delta: 0, level: Verbosity:none) # ARGY
       return unless level<=log_level
 
       # Guard
@@ -55,14 +54,14 @@ module Weird
         indent_delta = -1
       end
 
-      $status_indent+=indent_delta
-      indent = '  ' * $status_indent
+      @status_indent+=indent_delta
+      indentation = '  ' * @status_indent
 
-      output = "#{indent}#{msg}"
+      output = "#{indentation}#{msg}"
 
       puts output if level <= light?
 
-      File.open(logfilename,"a") do |f|
+      File.open(@logfilename,"a") do |f|
         f << output + "\n"
       end
     end
