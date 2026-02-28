@@ -21,53 +21,97 @@ module Weird
   # It should get used for LOG_LEVEL and each status call
   # When I produce a new function call to log
   # something, I want to be presented with a list of options for "level"
-  
+
+  # This is the user output handler.
+  # It is used for everything from logging debugging info to indicating progress to the user,
+  # to logging errors. Errors and high level messages are also written to the console.
+  # I am going to be reading the logs when using new rules / sites, and I trigger verbose or simulate.
   class Status
-    # The default output file should be logs/WEIRD.log, not $stderr,
-    #   but can be overridden by the cfg file.
-    #   (Moving away from parms to a cfg file because complexity).
-    # I am going to be reading the logs when new rules / sites, and I trigger verbose.
-    # Actual error errors should go to stdout for immediate action.
-
-    attr_reader :log_level
-
     class Verbosity
-      none = 0
-      light = 1
-      verbose = 2
+      NONE = 0
+      LIGHT = 1
+      VERBOSE = 2
+    end
+
+    class ErrorLevel
+      NONE = 0
+      WARN = 1
+      SERIOUS = 2
+      FATAL = 3
+    end
+
+    # ANSI color codes
+    class ANSI
+      TEXT_DARK_YELLOW = '\e[33m'
+      TEXT_BRIGHT_YELLOW = '\e[93m'
+      TEXT_BRIGHT_RED = '\e[91m'
+      RESET_ALL = '\e[0m'
     end
 
     def initialize
-      now=Time.now.strftime('%Y%m%d_%H%M%S')
-      l=CONFIG['log']
+      now = Time.now.strftime('%Y%m%d_%H%M%S')
+      l = CONFIG['log']
       @logfilename = l['path'] + l['prefix'] + now + l['ext']
       @status_indent = 0
+      File.open(@logfilename, 'a') do |f|
+        f << "Logging commenced at #{now}\n"
+      end
+    rescue StandardError => e
+      puts "#{ANSI::TEXT_BRIGHT_RED}Unable to write to logfile #{@logfilename}. #{e} #{e.message}"
+      puts e.backtrace.join("\n")
+      puts "Terminating execution.#{ANSI::RESET_ALL}"
+      exit
     end
-    
-    def write(msg, indent_delta: 0, level: Verbosity:none) # ARGY
-      return unless level<=log_level
+
+    # The main workhorse
+    def write(msg, indent_delta: 0, level: Verbosity::NONE, error_level: ErrorLevel::NONE)
+      return unless level <= $log_level # rubocop:disable Style/GlobalVars
 
       # Guard
-      if indent_delta > 0 then
+      if indent_delta.positive?
         indent_delta = 1
-      elseif indent_delta <0 
+      elsif indent_delta.negative?
         indent_delta = -1
       end
+      level = 0 if error_level.positive
 
-      @status_indent+=indent_delta
+      @status_indent += indent_delta
+      return if msg == '' # it's just being used to adjust the indenting
+
       indentation = '  ' * @status_indent
+      case error_level
+      when ErrorLevel::NONE
+        color = ''
+        color_reset = ''
+      when ErrorLevel::WARN
+        color = ANSI::TEXT_DARK_YELLOW
+      when ErrorLevel::SERIOUS
+        color = ANSI::TEXT_BRIGHT_YELLOW
+      when ErrorLevel::FATAL
+        color = ANSI::TEXT_BRIGHT_RED
+      else
+        puts("#{ANSI::TEXT_BRIGHT_YELLOW}Unknown error_level #{error_level}#{ANSI::RESET_ALL}")
+      end
+      color_reset = ANSI::RESET_ALL unless color == '' # reset all colors
 
-      output = "#{indentation}#{msg}"
+      output = indentation + color + msg + color_reset
 
-      puts output if level <= light?
+      puts output if level == Verbosity::NONE
 
-      File.open(@logfilename,"a") do |f|
-        f << output + "\n"
+      File.open(@logfilename, 'a') do |f| # ARGY: Neater way?
+        f << "#{output}\n"
       end
     end
 
+    def std_err_writer(msg, e, error_level: Status::ErrorLevel::SERIOUS)
+      status(msg, 0, 0, error_level)
+      status("#{e} #{e.message}", 1, 0, error_level)
+      status(e.backtrace.join("\n"), 0, 0, error_level)
+      status('', -1)
+    end
+  end
 
-  # Argy's error logging stuff
+  # Argy's error logging stuff.
   class Logging
     attr_reader :log_level
 
