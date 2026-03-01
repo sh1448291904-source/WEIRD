@@ -27,6 +27,19 @@ module Weird
   # to logging errors. Errors and high level messages are also written to the console.
   # I am going to be reading the logs when using new rules / sites, and I trigger verbose or simulate.
   class Status
+    # ANSI color codes
+    ANSI = [
+      '\e[0m',  # 0 - RESET_ALL
+      '\e[33m', # 1 - TEXT_DARK_YELLOW
+      '\e[93m', # 2 - TEXT_BRIGHT_YELLOW
+      '\e[91m'  # 3 - TEXT_BRIGHT_RED
+    ].freeze
+
+    @log_level = 42 # just to make it global to the class
+    class << self
+      attr_accessor :log_level
+    end
+
     class Verbosity
       NONE = 0
       LIGHT = 1
@@ -36,16 +49,8 @@ module Weird
     class ErrorLevel
       NONE = 0
       WARN = 1
-      SERIOUS = 2
+      SEVERE = 2
       FATAL = 3
-    end
-
-    # ANSI color codes
-    class ANSI
-      TEXT_DARK_YELLOW = '\e[33m'
-      TEXT_BRIGHT_YELLOW = '\e[93m'
-      TEXT_BRIGHT_RED = '\e[91m'
-      RESET_ALL = '\e[0m'
     end
 
     def initialize
@@ -57,44 +62,26 @@ module Weird
         f << "Logging commenced at #{now}\n"
       end
     rescue StandardError => e
-      puts "#{ANSI::TEXT_BRIGHT_RED}Unable to write to logfile #{@logfilename}. #{e} #{e.message}"
+      puts "#{ANSI[ErrorLevel::FATAL]}Unable to write to logfile #{@logfilename}. #{e} #{e.message}"
       puts e.backtrace.join("\n")
-      puts "Terminating execution.#{ANSI::RESET_ALL}"
+      puts "Terminating execution.#{ANSI[0]}"
       exit
     end
 
     # The main workhorse
     def write(msg, indent_delta: 0, level: Verbosity::NONE, error_level: ErrorLevel::NONE)
-      return unless level <= $log_level # rubocop:disable Style/GlobalVars
+      return unless level <= log_level
 
       # Guard
-      if indent_delta.positive?
-        indent_delta = 1
-      elsif indent_delta.negative?
-        indent_delta = -1
-      end
-      level = 0 if error_level.positive
+      indent_delta = indent_delta.clamp(-1, 1)
 
       @status_indent += indent_delta
       return if msg == '' # it's just being used to adjust the indenting
 
+      level = 0 if error_level.positive
       indentation = '  ' * @status_indent
-      case error_level
-      when ErrorLevel::NONE
-        color = ''
-        color_reset = ''
-      when ErrorLevel::WARN
-        color = ANSI::TEXT_DARK_YELLOW
-      when ErrorLevel::SERIOUS
-        color = ANSI::TEXT_BRIGHT_YELLOW
-      when ErrorLevel::FATAL
-        color = ANSI::TEXT_BRIGHT_RED
-      else
-        puts("#{ANSI::TEXT_BRIGHT_YELLOW}Unknown error_level #{error_level}#{ANSI::RESET_ALL}")
-      end
-      color_reset = ANSI::RESET_ALL unless color == '' # reset all colors
 
-      output = indentation + color + msg + color_reset
+      output = indentation + ANSI[error_level] + msg + ANSI[0]
 
       puts output if level == Verbosity::NONE
 
@@ -103,46 +90,46 @@ module Weird
       end
     end
 
-    def std_err_writer(msg, e, error_level: Status::ErrorLevel::SERIOUS)
+    def std_err_writer(msg, err, error_level: Status::ErrorLevel::SEVERE)
       status(msg, 0, 0, error_level)
-      status("#{e} #{e.message}", 1, 0, error_level)
-      status(e.backtrace.join("\n"), 0, 0, error_level)
+      status("#{err} #{err.message}", 1, 0, error_level)
+      status(err.backtrace.join("\n"), 0, 0, error_level)
       status('', -1)
     end
   end
 
-  # Argy's error logging stuff.
-  class Logging
-    attr_reader :log_level
-
-    def initialize(dest: $stderr, level: Logger::Severity::DEBUG)
-      @logger = Logger.new(dest, level: level)
-      @indent = 0
-      @log_level = Logger::Severity.coerce(level)
-      @enabled = true
-    rescue ArgumentError
-      @enabled = false
-    end
-
-    def status(var_name, value, level: Logger::Severity::DEBUG)
-      return unless @enabled
-
-      indent = ' ' * @indent
-      @logger.log(level, "#{indent}> #{var_name}: #{value.inspect}")
-    end
-
-    def section(title, level: Logger::Severity::DEBUG)
-      return unless @enabled
-
-      @logger.log(level, "\n>>> #{title}")
-      @indent = 1
-    end
-
-    def end_section(title, level: Logger::Severity::DEBUG)
-      return unless @enabled
-
-      @logger.log(level, "<<< #{title}")
-      @indent = 0
-    end
-  end
+  #   Argy's error logging stuff.
+  #  class Logging
+  #    attr_reader :log_level
+  #
+  #    def initialize(dest: $stderr, level: Logger::Severity::DEBUG)
+  #      @logger = Logger.new(dest, level: level)
+  #      @indent = 0
+  #      @log_level = Logger::Severity.coerce(level)
+  #      @enabled = true
+  #    rescue ArgumentError
+  #      @enabled = false
+  #    end
+  #
+  #    def status(var_name, value, level: Logger::Severity::DEBUG)
+  #      return unless @enabled
+  #
+  #      indent = ' ' * @indent
+  #      @logger.log(level, "#{indent}> #{var_name}: #{value.inspect}")
+  #    end
+  #
+  #    def section(title, level: Logger::Severity::DEBUG)
+  #      return unless @enabled
+  #
+  #      @logger.log(level, "\n>>> #{title}")
+  #      @indent = 1
+  #    end
+  #
+  #    def end_section(title, level: Logger::Severity::DEBUG)
+  #      return unless @enabled
+  #
+  #      @logger.log(level, "<<< #{title}")
+  #      @indent = 0
+  #    end
+  #  end
 end

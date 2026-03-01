@@ -15,8 +15,10 @@
       "international_english": true,
       "dubious": true,
       "glossary": true,
-      "mw-linting": {
-        "rules": true
+      "mw_linting": {
+        "rules": true,
+        "link_page_titles": true,
+        "icon_template" : "icon"
       }  
     }
   }

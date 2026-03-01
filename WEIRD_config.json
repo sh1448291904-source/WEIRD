@@ -5,6 +5,8 @@
             "prefix": "WEIRD_",
             "ext": ".log"
         },
-        "site_list": "sites/Sites.json"
+        "site_list": "sites/Sites.json",
+        "credentials_path": "sites",
+        "credentials_suffix": "_creds.json"
     }
 ]

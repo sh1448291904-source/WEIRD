@@ -65,7 +65,7 @@ module Weird
 
       # TO DO: Check original page against changed for if there was a REAL difference.
 
-      status('Categories_moved', categories.length, false, :light)
+      status("Categories moved #{categories.size}", 0, Status::Verbosity::LIGHT) # Rubbish
 
       # Return reconstructed page with standard bottom-of-page spacing
       "#{clean_text}\n\n#{category_block}\n"
@@ -130,31 +130,34 @@ module Weird
     # If a Heading 1 is detected, increase all heading levels by 1
     def repair_headings(page)
       # Check if a Heading 1 exists: exactly one '=' at start/end of line
-      if page.match?(/^=[^=]+=\s*$/)
+      return unless page.match?(/^=[^=]+=\s*$/)
+      status('Detected H1 - reducing all heading levels.', 1, Status::Verbosity::LIGHT)
 
-        # Loop from 5 down to 1 to increment levels safely
-        5.downto(1) do |i|
-          # Create strings of equals signs for current and next level
-          current_markers = '=' * i
-          next_markers    = '=' * (i + 1)
+      # Loop from 5 down to 1 to increment levels safely
+      5.downto(1) do |i|
+        # Create strings of equals signs for current and next level
+        current_markers = '=' * i
+        next_markers    = '=' * (i + 1)
 
-          # Regex explanation:
-          # ^#{current_markers}  -> Starts with exactly 'i' equals signs
-          # (.+?)                -> Captures the heading page (non-greedy)
-          # #{current_markers}   -> Ends with exactly 'i' equals signs
-          # \s*$                 -> Allows for trailing whitespace
-          #
-          # We use [^=] in the lookarounds to ensure we aren't matching
-          # a higher-level heading (e.g., ensuring H2 doesn't match H3)
-          find_regex = /^(?<!=)#{current_markers}([^=].+?[^=])#{current_markers}(?!=)\s*$/
+        # Regex explanation:
+        # ^#{current_markers}  -> Starts with exactly 'i' equals signs
+        # (.+?)                -> Captures the heading page (non-greedy)
+        # #{current_markers}   -> Ends with exactly 'i' equals signs
+        # \s*$                 -> Allows for trailing whitespace
+        #
+        # We use [^=] in the lookarounds to ensure we aren't matching
+        # a higher-level heading (e.g., ensuring H2 doesn't match H3)
+        find_regex = /^(?<!=)#{current_markers}([^=].+?[^=])#{current_markers}(?!=)\s*$/
 
-          page.gsub!(find_regex) do
-            "#{next_markers}#{Regexp.last_match(1)}#{next_markers}"
-          end
+        page.gsub!(find_regex) do |match|
+          status("Replacing: #{match}", 0, Status::Verbosity::VERBOSE)
+          puts 
+          next_markers + Regexp.last_match(1) + next_markers
         end
-
-        status('headings_repaired', 'Detected H1 and repaired all heading levels', false, :light)
       end
+
+      status('Repaired all heading levels', 0, Status::Verbosity::VERBOSE)
+      status("\n", -1, Status::Verbosity::VERBOSE)
 
       page
     end
@@ -163,7 +166,7 @@ module Weird
     # either [[PageName]] or {{icon|PageName}} when appropriate.
     def page_link_check(page_title, page, pages_main, icon_map)
       # Logging: mark start of page_link_check for this page
-      status('Page link checking started', page_title, true, :verbose)
+      status('Page link checking started', page_title, true, Status::Verbosity::VERBOSE)
       changed = false
       replacements = 0
 
@@ -178,7 +181,7 @@ module Weird
             page = page.gsub(link_regex, "{{icon|#{pname}}}")
             changed = true
             replacements += 1
-            status('icon_replaced', pname, false, :verbose)
+            status('icon_replaced', pname, false, Status::Verbosity::VERBOSE)
           end
         end
 
@@ -194,10 +197,10 @@ module Weird
         page = page.sub(plain_regex, replacement)
         changed = true
         replacements += 1
-        status('plain_replaced', "#{pname} -> #{replacement}", false, :verbose)
+        status('plain_replaced', "#{pname} -> #{replacement}", false, Status::Verbosity::VERBOSE)
       end
 
-      status('Page link updates:', { changed: changed, replacements: replacements }, false, :verbose)
+      status('Page link updates:', { changed: changed, replacements: replacements }, false, Status::Verbosity::VERBOSE)
       [page, changed]
     end
 
@@ -207,7 +210,7 @@ module Weird
     def manage_toc(page)
       # Count headings (== through ====== level, not including = on its own)
       heading_count = page.scan(/\n={2,6}[^=]/).length
-      status('heading_count', heading_count, false, :verbose)
+      status('heading_count', heading_count, false, Status::Verbosity::VERBOSE)
 
       changed = false
       toc_status = nil
@@ -222,7 +225,7 @@ module Weird
         if has_toc
           # Convert {{TOC}} to {{TOC right}}
           page = page.gsub('{{TOC}}', '{{TOC right}}')
-          status('toc_converted', '{{TOC}} -> {{TOC right}}', false, :verbose)
+          status('toc_converted', '{{TOC}} -> {{TOC right}}', false, Status::Verbosity::VERBOSE)
           toc_status = 'converted to {{TOC right}}'
           changed = true
         else
@@ -230,7 +233,7 @@ module Weird
           first_heading_idx = page.index(/\n={2,6}[^=]/)
           if first_heading_idx
             page.insert(first_heading_idx, "{{TOC right}}\n\n")
-            status('toc_inserted', '{{TOC right}} added before first heading', false, :verbose)
+            status('toc_inserted', '{{TOC right}} added before first heading', false, Status::Verbosity::VERBOSE)
             toc_status = 'inserted {{TOC right}}'
             changed = true
           end
@@ -242,12 +245,12 @@ module Weird
       # 10 or fewer headings - remove any TOC
       if page.include?('{{TOC right}}')
         page = page.gsub('{{TOC right}}', '')
-        status('toc_removed', 'Removed {{TOC right}} (<=10 headings)', false, :verbose)
+        status('toc_removed', 'Removed {{TOC right}} (<=10 headings)', false, Status::Verbosity::VERBOSE)
         toc_status = 'removed {{TOC right}}'
         changed = true
       elsif page.include?('{{TOC}}')
         page = page.gsub('{{TOC}}', '')
-        status('toc_removed', 'Removed {{TOC}} (<=10 headings)', false, :verbose)
+        status('toc_removed', 'Removed {{TOC}} (<=10 headings)', false, Status::Verbosity::VERBOSE)
         toc_status = 'removed {{TOC}}'
         changed = true
       end
@@ -261,12 +264,12 @@ module Weird
     # Extract glossary terms from tables on the Glossary page
     # Returns a hash of term => definition
     def get_glossary_terms(wiki)
-      status('get_glossary_terms', 'fetching Glossary page', false, :verbose)
+      status('get_glossary_terms', 'fetching Glossary page', false, Status::Verbosity::VERBOSE)
 
       begin
         glossary_text = wiki.get_text('Glossary')
       rescue
-        status('Glossary', 'page not found, skipping glossary tagging', false, :light)
+        status('Glossary', 'page not found, skipping glossary tagging', false, Status::Verbosity::LIGHT)
         return {}
       end
 
@@ -275,12 +278,12 @@ module Weird
       # Extract all wiki tables {| ... |}
       # Tables contain rows separated by |-, cells separated by | or ||
       tables = glossary_text.scan(/\{\|(.*?)\|}/m)
-      status('glossary_tables_found', tables.length, false, :verbose)
+      status('glossary_tables_found', tables.length, false, Status::Verbosity::VERBOSE)
 
       tables.each_with_index do |table_content, table_idx|
-        status('processing_glossary_table', "table #{table_idx + 1}", false, :verbose)
+        status('processing_glossary_table', "table #{table_idx + 1}", false, Status::Verbosity::VERBOSE)
         rows = table_content.split(/^\|-/m)
-        status('glossary_rows_count', rows.length, false, :verbose)
+        status('glossary_rows_count', rows.length, false, Status::Verbosity::VERBOSE)
 
         rows.each do |row|
           cells = []
@@ -301,12 +304,12 @@ module Weird
           definition = cells[1].strip
           unless term.empty?
             glossary_terms[term] = definition
-            status('glossary_term', "#{term} => #{definition.truncate(50)}", false, :verbose)
+            status('glossary_term', "#{term} => #{definition.truncate(50)}", false, Status::Verbosity::VERBOSE)
           end
         end
       end
 
-      status('Glossary', "loaded #{glossary_terms.length} terms", false, :light) if glossary_terms.length.positive?
+      status('Glossary', "loaded #{glossary_terms.length} terms", false, Status::Verbosity::LIGHT) if glossary_terms.length.positive?
       glossary_terms
     end
 
@@ -318,7 +321,7 @@ module Weird
     def apply_glossary_tags(page, glossary_terms)
       return page if glossary_terms.empty?
 
-      status('apply_glossary_tags', "checking #{glossary_terms.length} terms", false, :verbose)
+      status('apply_glossary_tags', "checking #{glossary_terms.length} terms", false, Status::Verbosity::VERBOSE)
       terms_found = 0
       terms_updated = 0
       terms_tagged = 0
@@ -326,7 +329,7 @@ module Weird
       terms_removed = 0
 
       glossary_terms.each do |term, definition|
-        status('checking_term', "#{term} => #{definition.truncate(50)}", false, :verbose)
+        status('checking_term', "#{term} => #{definition.truncate(50)}", false, Status::Verbosity::VERBOSE)
         escaped_term = Regexp.escape(term)
 
         # Find the first instance of the term anywhere on the page (wrapped or unwrapped)
@@ -344,26 +347,26 @@ module Weird
         elsif plain_match
           first_is_abbr = false
         else
-          # status("term_not_found", term, false, :verbose)
+          # status("term_not_found", term, false, Status::Verbosity::VERBOSE)
           next
         end
 
         if first_is_abbr
           # First instance is already wrapped in abbr tag
           terms_matched += 1
-          status('found_existing_abbr_first', term, false, :verbose)
+          status('found_existing_abbr_first', term, false, Status::Verbosity::VERBOSE)
 
           # Check and update definition if it differs
           abbr_full = abbr_match[0]
           if abbr_full.match?(/title="([^"]*)"/)
             current_title = abbr_full.match(/title="([^"]*)"/)&.[](1)
             if current_title == definition
-              status('glossary_definition_match', "#{term}: definition already matches", false, :verbose)
+              status('glossary_definition_match', "#{term}: definition already matches", false, Status::Verbosity::VERBOSE)
             else
               updated_abbr = abbr_full.gsub(/title="[^"]*"/, %(title="#{definition}"))
               page = page.sub(abbr_full, updated_abbr)
               terms_updated += 1
-              status('glossary_updated_first', "#{term}: changed from '#{current_title}' to '#{definition}'", false, :verbose)
+              status('glossary_updated_first', "#{term}: changed from '#{current_title}' to '#{definition}'", false, Status::Verbosity::VERBOSE)
             end
           end
 
@@ -379,7 +382,7 @@ module Weird
             search_end = search_start + next_match.end(0)
             page[search_start...search_end] = page[search_start...search_end].sub(next_abbr_full, next_unwrapped)
             terms_removed += 1
-            status('glossary_removed_duplicate', "#{term}: unwrapped duplicate instance", false, :verbose)
+            status('glossary_removed_duplicate', "#{term}: unwrapped duplicate instance", false, Status::Verbosity::VERBOSE)
             search_start += next_unwrapped.length
           end
 
@@ -391,7 +394,7 @@ module Weird
           replacement = %(<abbr title="#{definition}">#{match_text}</abbr>)
           page = page[0...match_idx] + replacement + page[(match_idx + match_text.length)..]
           terms_tagged += 1
-          status('glossary_tagged_first', "#{term}: #{definition.truncate(40)}", false, :verbose)
+          status('glossary_tagged_first', "#{term}: #{definition.truncate(40)}", false, Status::Verbosity::VERBOSE)
 
           # Remove abbr tags from any other instances of this term
           unwrapped_abbr_pattern = %r{<abbr[^>]*>#{Regexp.escape(match_text)}</abbr>}
@@ -399,13 +402,13 @@ module Weird
             match = page.match(unwrapped_abbr_pattern)
             page = page.sub(match[0], match_text)
             terms_removed += 1
-            status('glossary_removed_duplicate', "#{term}: unwrapped duplicate instance", false, :verbose)
+            status('glossary_removed_duplicate', "#{term}: unwrapped duplicate instance", false, Status::Verbosity::VERBOSE)
           end
         end
       end
 
       status_msg = "found:#{terms_found} matched:#{terms_matched} updated:#{terms_updated} tagged:#{terms_tagged} removed:#{terms_removed}"
-      status('glossary_summary', status_msg, false, :verbose)
+      status('glossary_summary', status_msg, false, Status::Verbosity::VERBOSE)
       page
     end
 
@@ -438,7 +441,7 @@ module Weird
 
       # It's a simple word - add word boundaries
       rule['find'] = word_boundary_pattern(find_pattern)
-      status('rule_preprocessed', "Added word boundaries to '#{find_pattern}'", false, :verbose)
+      status('rule_preprocessed', "Added word boundaries to '#{find_pattern}'", false, Status::Verbosity::VERBOSE)
     end
     rules
   end
